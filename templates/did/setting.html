@@ -1,0 +1,47 @@
+<!-- setting.html -->
+{% include "did/header.html" %}
+    
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작 -->
+        <section id="content" class="aside_none">
+			<div class="page_tit setting">
+				<h2>설정</h2>
+				<div class="tab_wrap_rectangle">
+					<a href="/setting" class="active">일반</a>
+					<a href="/app" id="btnSW" style="display:none;" title="S/W관리로 이동">S/W 관리</a>
+				</div>
+			</div>
+			<div class="page_header_color setting">
+				<div class="btn_wrap">
+					<button type="button" class="btn_point" id="btn_config" title="설정 저장">저장</button>
+				</div>				
+			</div>
+			<form class="form-horizontal" id="formConfig" name="formConfig" method="post" >
+				<section class="type_set_wrap">
+					<h3>콘텐츠 설정</h3>
+					<div class="type_set_conts">
+						<span><input type="checkbox" name="M" id="contsSet01"><label for="contsSet01" class="lb_check full">영상</label></span>
+						<span><input type="checkbox" name="I" id="contsSet02"><label for="contsSet02" class="lb_check full">이미지</label></span>
+						<span><input type="checkbox" name="T" id="contsSet03"><label for="contsSet03" class="lb_check full">자막</label></span>
+						<span><input type="checkbox" name="W" id="contsSet04"><label for="contsSet04" class="lb_check full">웹</label></span>
+						<span><input type="checkbox" name="L" id="contsSet05"><label for="contsSet05" class="lb_check full">라이브</label></span>
+						<span><input type="checkbox" name="G" id="contsSet06"><label for="contsSet06" class="lb_check full">그룹</label></span>
+					</div>
+				</section>
+			</form>
+			
+        </section>
+        <!-- //content 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+	
+<!-- page script 시작 -->
+<script src="/static/js/did/config.js"></script>
+<!-- page script 끝 -->	
+</form>
+</body>
+</html>
+

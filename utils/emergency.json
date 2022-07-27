@@ -1,0 +1,6 @@
+{
+  "command_type": "emergency",
+  "volume": 10,
+  "emergency_text": "긴급문자 텍스트입니다.",
+  "emergency_duration": 30
+}

@@ -1,0 +1,116 @@
+<!-- dashboard.html -->
+{% include "did/header.html" %}
+
+    <!-- container 시작 -->
+    <div id="container">
+		  
+        <!-- content 시작 -->
+        <section id="content">
+			<div class="page_tit setting">
+				<h2>대시보드</h2>
+			</div>
+			<div class="page_header_color schedule2">
+				<div class="calendar_date_wrap">
+					<strong>이번달 달력</strong>
+				</div>				
+			</div>			
+			
+			<div class="calendar_wrap">
+				<ul class="calendar_head">
+					<li>Sun</li>
+					<li>Mon</li>
+					<li>Tue</li>
+					<li>Wed</li>
+					<li>Thu</li>
+					<li>Fri</li>
+					<li>Sat</li>
+				</ul>
+				<ul class="calendar_body" id="calendarUl">            
+				</ul>
+			</div> 
+
+        </section>
+        <!-- //content 끝 -->
+
+		<!-- aside 시작 -->
+		<div id="aside_wrap">
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>스토리지</h3>
+				</div>
+				<div class="storage_chart_wrap">					
+					<div class="circle_chart">
+						<strong></strong>
+					</div>
+					<p class="storage_type"><span class="used">Used</span><span class="free">Free</span></p>						
+					<p class="storage_date" ><strong id="storage_used">40.15GB</strong><span id="storage_total">160.00GB</span></p>				
+				</div>
+			</section>
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>콘텐츠</h3>
+				</div>
+				<div class="contents_chart">
+					<ul class="chart_box">
+						<li>
+							<span class="tit">동영상</span>
+							<div class="gray_box"><span class="video"></span></div>
+							<strong class="count" id="video_count">0</strong>
+						</li>
+						<li>
+							<span class="tit">이미지</span>
+							<div class="gray_box"><span class="img"></span></div>
+							<strong class="count" id="img_count">0</strong>
+						</li>
+						<li>
+							<span class="tit">자막</span>
+							<div class="gray_box"><span class="text"></span></div>
+							<strong class="count" id="text_count">0</strong>
+						</li>
+						<li>
+							<span class="tit">웹</span>
+							<div class="gray_box"><span class="web"></span></div>
+							<strong class="count" id="web_count">0</strong>
+						</li>
+						<li>
+							<span class="tit">라이브</span>
+							<div class="gray_box"><span class="live"></span></div>
+							<strong class="count" id="live_count">0</strong>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>셋탑박스</h3>
+				</div>
+				<div class="settopbox_chart">
+					<div class="chart_box">
+						<span class="online">&nbsp;</span>
+						<span class="offline">&nbsp;</span>
+						<span class="error">&nbsp;</span>
+					</div>
+					<ul class="chart_text">
+						<li><strong class="online" id="settopbox_online">00</strong>온라인</li>
+						<li><strong class="offline" id="settopbox_offline">00</strong>오프라인</li>
+						<li><strong class="error" id="settopbox_error">00</strong>장애</li>
+					</ul>
+				</div>
+			</section>
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+
+<!-- wrap 시작 -->
+<div class="wrap-loading display-none">
+	<div><img src="/static/images/loading.gif"  width=70px; height=70px;/></div>
+</div>
+
+<!-- page script -->
+<script src="/static/js/did/dashboard.js"></script>
+
+</body>
+</html>
+

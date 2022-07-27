@@ -1,0 +1,256 @@
+<!-- design.html -->
+{% include "did/header.html" %}
+
+<script src='https://html2canvas.hertzen.com/dist/html2canvas.min.js'></script>
+
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작 -->
+        <section id="content">
+			<div class="page_tit">
+				<h2>화면디자인</h2>
+			</div>
+			<div class="page_header_color design" id="drag_button">				
+				<ul class="type_sorting design">					
+					<li class="" id="liMovie"><button type="button" class="btn_type video" id=""  onclick="createControl(2, 0, 0)" draggable="true" value="2" title='동영상 추가'>동영상</button></li>
+					<li class="" id="liImage"><button type="button" class="btn_type img" 	id="" onclick="createControl(3, 0, 0)" draggable="true" value="3" title='이미지 추가'>이미지</button></li>
+					<li class="" id="liTitle"><button type="button" class="btn_type text" id=""   onclick="createControl(4, 0, 0)" draggable="true" value="4" title='자막 추가'>자막</button>	</li>
+					<li class="" id="liWeb"><button type="button"   class="btn_type web" 	id="" onclick="createControl(5, 0, 0)" draggable="true" value="5" title='웹 추가'>Web</button></li>
+					<li class="" id="liLive"><button type="button"  class="btn_type live" id=""   onclick="createControl(6, 0, 0)" draggable="true" value="6" title='라이브 추가'>라이브</button></li>
+					<li class="" id="liGroup"><button type="button" class="btn_type group" id=""  onclick="createControl(7, 0, 0)" draggable="true" value="7" title='그룹 추가'>그룹</button></li>
+				</ul>	
+							
+				<div class="right_wrap">
+					<div class="control_position" style="width: fit-content; display: inline-block; ">	
+						<p>
+							<label for="screenW">가로</label><input type="text" disabled = true name="" id="screenW">
+							<label for="screenH" class="large">세로</label><input type="text" disabled = true name="" id="screenH">
+						</p>				
+					</div>
+					<div class="control_position" style="width: fit-content; display: inline-block; ">	
+						<p>
+							<label for="positionX">X</label><input type="text" disabled = true name="" id="positionX" placeholder="좌표" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<label for="positionY" class="large">Y</label><input type="text" disabled = true name="" id="positionY" placeholder="좌표" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<label for="positionW" class="large">W</label><input type="text" name="" disabled = true id="positionW" placeholder="넓이" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<label for="positionH" class="large">H</label><input type="text" disabled = true name="" id="positionH" placeholder="높이" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+						</p>				
+					</div>
+					<div class="design_btn">
+						<button type="button" class="btn_gride" title='화면정렬'>화면정렬</button>
+						<button type="button" class="btn_default" id="btn_resolution" title='해상도 변경'>해상도</button>
+						<button type="button" class="btn_point" id="delControl" title='컨트롤 삭제'>컨트롤 삭제</button>
+						<div class="gride_pop">
+							컨트롤 자동배치 합니다.
+						</div>
+						<div class="resolution_pop">
+							<button type="button" id="scr5" class="btn_size" onclick="reSizeStage(3840,2160,0.4,0.4);">3840x2160</button>
+							<button type="button" id="scr6" class="btn_size" onclick="reSizeStage(2160,3840,0.4,0.4);">2160x3840</button>
+							<button type="button" id="scr1" class="btn_size" onclick="reSizeStage(1920,1080,0.5,0.5);">1920X1080</button>
+							<button type="button" id="scr2" class="btn_size" onclick="reSizeStage(1080,1920,0.5,0.5);">1080X1920</button>
+							<button type="button" id="scr3" class="btn_size" onclick="reSizeStage(1600,1024,0.5,0.5);">1600X1024</button>
+							<button type="button" id="scr4" class="btn_size" onclick="reSizeStage(1600,900,0.5,0.5);">1600X900</button>
+							<div class="direct_input">
+								<input type="text" name="" id="sizeWidth" placeholder="width" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" onkeypress='return checkNumber(event)'><span>X</span><input type="text" name="" id="sizeHeight" placeholder="height" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" onkeypress='return checkNumber(event)'>
+								<p><button type="button" class="btn_tbl" id="clickCancel" title='취소'>취소</button>
+								<button type="button" class="btn_tbl_point" id="clickApply" onclick="reSizeStage(0,0,0,0);" title='적용'>적용</button></p>
+							</div>
+						</div>					
+					</div>
+					<div class="check_box">
+						<input type="checkbox" id="chkGrid"><label for="chkGrid" class="lb_check">격자배치</label>
+					</div>					
+					<div class="btn_wrap stick">
+						<button type="button" class="btn_default" id="btnPreview" title='미리보기'>미리보기</button>
+						<button type="submit" class="btn_point" id="controlSave" title='저장'>저장</button>
+						<button type="button" class="btn_point" id="btnUpdateDesign" title='수정'>수정</button>
+					</div>
+				</div>				
+			</div>
+			<div class="design_gride_wrap " id="canvas_container" style="display: inline-block;">
+				<div class="design_none display:inline-block;">
+					<!-- 자동생성 Script  -->
+				</div>	
+
+				<!-- Control create area !! -->
+			</div>
+
+			<div class="design_schedule_wrap">
+				<div class="design_seartch">
+					<div id="design_paging" style="float: left;">
+						<button type="button" class="paging_prev" id="paging_pre" title="이전"><</button>
+							<span class="paging_now" id="paging_now">1</span>
+							<span class="paging_total" id="paging_total">/ 5</span>
+						<button type="button" class="paging_next" id="paging_next" title="다음">></button>
+						<span class="list_total" id="designCountText"></span>
+					</div>
+					<div class="search_stick">	
+						<fieldset>
+							<input type="text" name="searchText" id="searchText" placeholder="스케줄 이름" onkeypress="if(event.keyCode == 13) $('#btnSearch').click();">
+							<button type="submit" class="btn_search" id="btnSearch" title="검색">검색</button>
+						</fieldset>
+					</div>
+				</div>
+				<div class="design_sechedule scrollbar-dynamic">
+					<div  id="designList">
+					
+					</div>
+				</div>
+			</div>
+			
+			
+        </section>
+        <!-- //content 끝 -->
+		<!-- aside 시작 -->
+		<div id="aside_wrap">
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>컨트롤 리스트</h3>
+				</div>				
+				<div class="control_list_wrap scrollbar-dynamic">
+					<ul class="control_design_list" id="controlListRight">
+						
+					</ul>
+				</div>				
+			</section>
+			<section class="aside_conts">
+				<form  id="formControlContents" name="formControlContents">
+					<!-- Control 기본 정보  -->
+					<div class="aside_tit">
+						<h3>콘텐츠 리스트</h3>
+					</div>
+					<div id="contentsDivArea" class='contents_list_scroll scrollbar-dynamic'>
+						
+						<!-- Contents 별 Div 자동 생성 영역 -->
+					</div>
+					<div class='btn_wrap' style ='margin-top : 10px;'><button type='button' class='btn_add_circle' onClick='contentsADD();' title="컨텐츠 추가하기">추가하기</button></div>
+				</form>
+				
+			</section>
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+
+<!-- 콘텐츠리스트 ver.modal -->
+<div class="modal fade in" data-backdrop="static" id="popClickScheduleSend" style="overflow: auto;">
+    <div class="modal-dialog" style="width:480px; margin: 0%; left: 38%; top: 15%;" >
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title="닫기"
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle">콘텐츠 선택</h4>
+            </div>
+				<div class="modal-body">
+					<div class="tbl_wrap">			
+						<!-- 목록 시작 --> 
+						<table class="tbl_list" id="contents_List" >
+							<thead>
+								<tr>
+									<th style="padding-right:0px; width:auto;">NO<input type="checkbox" class="dt_all_chk"></th>
+									<th style="padding-right:0px; width:auto;">NO</th>
+									<th style="padding-right:0px; width:auto;">콘텐츠 명</th>
+									<th style="padding-right:0px; width:auto;">콘텐츠 ID</th>
+									<th style="padding-right:0px; width:auto;">play 시간</th>
+									<th style="padding-right:0px; width:auto;">cont Type</th>
+									<th style="padding-right:0px; width:auto;">cont URL</th>
+									<th style="padding-right:0px; width:auto;">플레이 시간</th>
+									<th style="padding-right:0px; width:auto;">콘텐츠 용량</th>
+									<th style="padding-right:0px; width:auto;;">미리보기</th>
+								</tr>	
+							</thead>
+						</table>
+					</div>
+									
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn_point pull-left" id="btnSave" title="저장">저장</button>
+				</div>
+        </div>
+    </div>
+</div>
+<!-- 콘텐츠리스트 저장 ver.modal 끝 -->
+
+
+<!-- 화면디자인 저장 ver.modal -->
+<div class="modal fade in" data-backdrop="static" id="popControlSave" style="overflow: auto;">
+    <div class="modal-dialog" style="width:20%; margin: 0%; left: 38%; top: 15%;" >
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title="닫기"
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle">화면디자인 저장</h4>
+            </div>
+				<div class="modal-body">
+					<form  id="formControl" name="formControl">
+						<div class="form-group has-feedback">
+							<label for="user_nm">화면디자인 이름 *</label>
+							<input type="text" class="form-control" name="control_name" id="control_name" placeholder="화면디자인 이름">
+						</div>    
+						<div class="form-group has-feedback">
+							<label for="user_nm">화면디자인 설명</label>
+							<input type="text" class="form-control" name="control_desc" id="control_desc" placeholder="화면디자인 설명">
+						</div>
+						<input type="hidden" class="form-control" name = "control_url"  id="control_url" placeholder="아이콘 url" >
+						<input type="hidden" name="screen_id" id="screen_id">
+						<label>
+							콘트롤 리스트
+						</label>
+						
+						<div class="control_position_list" id="control_position_list">	
+											
+						</div>
+
+					</form>
+										
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn_point pull-left" id="btnControlSave" title="저장">저장</button>
+				</div>
+        </div>
+    </div>
+</div>
+<!-- 화면디자인 저장 ver.modal 끝 -->
+
+
+
+<!-- 팝업 시작-->
+<div class="modal fade modal-center in" data-backdrop="static" id="modal_preview">
+    <div class="modal-dialog modal-center" style="width:fit-content; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" onclick="closePopup();" title="닫기">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal_preview_Title">미리보기</h4>
+            </div>
+            <div class="modal-body">
+
+				<div class="box-body" style="padding : 10px">
+
+					<div id="preview_container_div" style="border: black solid;">
+						 
+					</div>
+
+				</div>
+
+            </div>
+
+			<div class="modal-footer">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //팝업 끝-->
+
+<!-- page script -->
+<script src="/static/js/did/design.js"></script>
+
+</body>
+</html>
+
+

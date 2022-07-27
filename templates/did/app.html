@@ -1,0 +1,207 @@
+<!-- app.html -->
+{% include "did/header.html" %}
+	<style>
+		.modal-dialog-centered {
+			transform: translate(0, -50%);
+			top: 30%;
+			margin: 0 auto;
+		}
+		.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+		.bar { background-color: #337ab7; width:0%; height:20px; border-radius: 3px; }
+		.percent { position:absolute; display:inline-block; top:1px; left:48%; }
+	</style>
+
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작 -->
+        <section id="content" class="aside_none">
+			<div class="page_tit setting">
+				<h2>설정</h2>
+				<div class="tab_wrap_rectangle">
+					<a href="/setting" title="설정으로 이동">일반</a>
+					<a href="/app" class="active">S/W 관리</a>
+				</div>
+			</div>
+		</section>
+		<section class="content">
+
+
+			<!-- /.box-header -->
+			<div class="box-body">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="form-group" style=" height:700px; overflow-x:hidden">
+							<div class="box-header" style="box-shadow:0 0 0 rgba(0,0,0,0.1)">
+	
+							</div>
+							<div style="box-shadow:0 0 0 rgba(0,0,0,0.1)">
+								<h4 class="box-title">앱 조회</h4>
+								<table id="data_list" class="table table-bordered table-striped">
+									<thead>
+									  <tr>
+										<th class="text-center" style="width: 5%;">NO</th>
+										<th class="text-center" style="width: 20%;">제목</th>
+										<th class="text-center" style="width: 15%;">파일명</th>
+										<th class="text-center" style="width: 15%;">URL</th>
+										<th class="text-center" style="width: 15%;">날짜</th>
+										<th class="text-center" style="width: 10%;">상태</th>
+										<th class="text-center" style="width: 10%;">버전</th>
+										<th class="text-center" style="width: 10%;">파일크기</th>
+									  </tr>
+									</thead>
+								  </table>
+							</div>
+						</div>
+					</div>
+					<!--/.col -->
+					<form class="form-horizontal" id="formAppAdd" name="formAppAdd" method="post"
+						  enctype="multipart/form-data">
+	
+						<div class="col-md-4">
+							<div class="col-md-12">
+	
+							<div class="form-group" >
+								<div class="box-header" style="box-shadow:0 0 0 rgba(0,0,0,0.1)">
+								</div>
+								<div style="box-shadow:0 0 0 rgba(0,0,0,0.1)">
+									<h4 class="box-title">앱 등록</h4>
+	
+								</div>
+								<div></div>
+	
+	
+								<div class="form-group">
+								</div>
+	
+	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">제 목 *</label>
+	
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="app_nm" id="app_nm" value=""
+											   placeholder="">
+									</div>
+								</div>
+	
+	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">파 일 *</label>
+	
+									<div class="col-sm-9">
+										<div class='filebox bs3-primary preview-image' id='preview-image'>
+	
+											<input class='upload-name' id="app_file_nm_text" value='파일선택'
+												   disabled="disabled" style="width: 80%;">
+											<label for='file_upload' title="파일 선택">파일</label>
+											<input type='file' id="file_upload" name='files' accept='.apk'
+												   class='upload-hidden'>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label">파일크기</label>
+	
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="app_size_text" id="app_size_text"
+											   placeholder="" disabled="disabled">
+										<input type="hidden" class="form-control" name="app_size" id="app_size"
+											   placeholder="" >
+									</div>
+								</div>
+
+	
+								<div class="form-group">
+									<label class="col-sm-2 control-label" >시작일시 *</label>
+									<div class="col-sm-9">
+										<div class='input-group date' id='st_date_time_picker'>
+											<div class="input-group-addon">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</div>
+	
+											<input type='text' class="form-control pull-right" id="app_tm" value=""
+													name="app_tm" style="ime-mode:disabled;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label"> 앱 타입</label>
+	
+									<div class="col-sm-9">
+										<select class="form-control select2" style="width: 100%;" id="app_horizon"
+												name="app_horizon" value="">
+											<option value="Y">가로형</option>
+											<option value="N" selected>세로형</option>
+										</select>
+									</div>
+								</div>
+	
+								<div class="form-group">
+									<label class="col-sm-2 control-label">버 전</label>
+	
+									<div class="col-sm-9">
+										<input type="text" class="form-control" name="app_version" id="app_version" value=""
+											   placeholder="">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label"> 상 태</label>
+	
+									<div class="col-sm-9">
+										<select class="form-control select2" style="width: 100%;" id="app_stat"
+												name="app_stat" value="" disabled>
+											<option value="0201">배포 준비</option>
+											<option value="0202">배포중</option>
+											<option value="0203">배포 완료</option>
+										</select>
+									</div>
+								</div>
+	
+								<button type="button" class="btn btn_point" style="margin-left:78%" title="파일 저장하기" onclick="saveApp();">저장하기</button>
+							</div>
+						
+						</div>
+						</div>
+					</form>
+	
+				</div>
+			</div>
+	
+	
+			<!-- /.row -->
+		</section>
+        <!-- //content 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Upload processing...</h3>
+			</div>
+			<div class="modal-body">
+				<!-- progress , bar, percent를 표시할 div 생성한다. -->
+				<div class="progress">
+					<div class="progress-bar"></div>
+					<div class="percent" style="color:black; font-weight: bold;">0%</div>
+				</div>
+				<div id="status"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+<!-- page script 시작 -->
+<script src="/static/js/did/app.js"></script>
+
+</script>
+<!-- page script 끝 -->	
+</form>
+</body>
+</html>
+

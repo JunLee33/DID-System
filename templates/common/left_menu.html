@@ -1,0 +1,150 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+
+    <!-- user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="/static/dist/img/user-dummy.png" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>{{ current_user.user_nm }}님 </p>
+        <p>안녕하세요.</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+      </div>
+    </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header"><font color="#eeeeee"><b>MENU NAVIGATION</b></font></li>
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' or  current_user.user_gr == '0103' %}
+      <li id="menu_dashboard">
+        <a href="/dashboard">
+          <i class="fa fa-dashboard"></i> <span>DASHBOARD</span>
+        </a>
+      </li>
+      {% endif %}
+
+      <!-- 어드민: 0102 , 지역장: 0103 , 공지팀: 0104 , 광고주: 0105, 설치팀: 0106 , 점포담당자: 0107 -->
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' or current_user.user_gr == '0106' %}
+      <li class="treeview" id="menu_site">
+        <a href="#">
+          <i class="fa fa-laptop"></i> <span>사이트 관리</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/parking"><i class="fa fa-circle-o"></i> 가맹점</a></li>
+          {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' %}
+          <li><a href="/parking_manager"><i class="fa fa-circle-o"></i>가맹점 관리</a></li>
+          {% endif %}
+          <li><a href="/settop"><i class="fa fa-circle-o"></i> 셋탑박스</a></li>
+        </ul>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' %}
+      <li class="treeview" id="menu_contents">
+        <a href="#">
+          <i class="fa fa-files-o"></i> <span>콘텐츠 관리</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/contents_all"><i class="fa fa-circle-o"></i> 전체 콘텐츠</a></li>
+          <li><a href="/contents"><i class="fa fa-circle-o"></i> 콘텐츠</a></li>
+          <li><a href="/template"><i class="fa fa-circle-o"></i> 템플릿</a></li>
+          <li><a href="/layer"><i class="fa fa-circle-o"></i> 레이어</a></li>
+        </ul>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102'   or current_user.user_gr == '0103'  or current_user.user_gr == '0107' %}
+      <li id="menu_deploy">
+        <a href="/deploy">
+          <i class="fa fa-bullhorn"></i> <span>점포 배포 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' or  current_user.user_gr == '0103' %}
+      <li id="menu_group">
+        <a href="/group">
+          <i class="fa fa-group"></i> <span>그룹 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' or current_user.user_gr == '0104'%}
+      <li id="menu_noti">
+        <a href="/noti">
+          <i class="fa fa-microphone"></i> <span>공지사항 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102'%}
+      <li class="treeview" id="menu_history">
+        <a href="#">
+          <i class="fa fa-calendar"></i> <span>이력 관리</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/history/layer"><i class="fa fa-circle-o"></i> 배포 이력</a></li>
+          <li><a href="/history/noti"><i class="fa fa-circle-o"></i> 공지 이력</a></li>
+        </ul>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102'  %}
+      <li id="menu_static">
+        <a href="/new_statistics">
+          <i class="fa fa-bar-chart"></i> <span>통계 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' %}
+      <li id="menu_screen">
+        <a href="/screen">
+          <i class="fa fa-camera-retro"></i> <span>스크린 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' or current_user.user_gr == '0103'%}
+      <li id="menu_user">
+        <a href="/user">
+          <i class="fa fa-user"></i> <span>사용자 관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' %}
+      <li id="menu_log">
+        <a href="/log">
+          <i class="fa fa-user"></i> <span>로그관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if current_user.user_gr == '0101' or current_user.user_gr == '0102' %}
+      <li id="menu_app">
+        <a href="/app">
+          <i class="fa fa-android"></i> <span>APP 배포관리</span>
+        </a>
+      </li>
+      {% endif %}
+
+
+
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,184 @@
+<!-- schedule.html -->
+{% include "did/header.html" %}
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작 -->
+        <section id="content">
+			<div class="page_tit setting">
+				<h2>스케줄전송</h2>
+				<div class="tab_wrap_rectangle">
+					<a href="/schedule" class="active">편성</a>
+					<a href="/organic" title="스케줄로 이동">스케줄</a>
+				</div> 
+			</div>
+			<div class="page_header_color schedule">				
+				<div class="input_term">						
+					<label for="termStart" style="font-size: 20px; text-decoration: none; font-weight: 500; line-height: 1; font-family: 'Source Sans Pro',sans-serif;" id="">기간설정</label>
+					<input type="text" name="" id="termStart" style="cursor: pointer;" class="input_data big" title='시작날짜 선택' readonly=true; placeholder="시작날짜"> ~
+					<input type="text" name="" id="termEnd" style="cursor: pointer;" class="input_data big" title='종료날짜 선택' readonly=true; placeholder="종료날짜">
+				</div>
+				<div class="btn_wrap">
+					<button type="button" class="btn_point" id="scheduleSettop" title="스케줄 전송" >전송</button>
+				</div>				
+			</div>
+
+			<div id='calendar' style='padding: 0px 30px 0px; width: 100%;' ></div>
+			<!-- 주간 Template End -->
+
+
+			<section class="schedule_make_add_wrap">
+				<div class="schedule_make_tit">
+					<h3>편성추가 <span>우측 상단의 화면 디자인을 선택하세요</span> </h3>
+				</div>
+				<!-- <div class="schedule_make_none" id="organAddbyFunc"><button type="button" class="btn_add_circle2" disabled=true;>추가하기</button></div> -->
+				<div class="schedule_make create" style="display: none;" id="organAdd_div">
+					<div class="make_tit color_allday" data-role="organicData" id="organAdd_target">
+
+					</div>
+					<div class="make_conts">
+						<div class="day_box">
+							<span class="label">요일선택</span>
+							<button type="button" onclick="weekClick('btnA')" class="day" id="btnA" title="월">월</button>
+							<button type="button" onclick="weekClick('btnB')" class="day" id="btnB" title="화">화</button>
+							<button type="button" onclick="weekClick('btnC')" class="day" id="btnC" title="수">수</button>
+							<button type="button" onclick="weekClick('btnD')" class="day" id="btnD" title="목">목</button>
+							<button type="button" onclick="weekClick('btnE')" class="day" id="btnE" title="금">금</button>
+							<button type="button" onclick="weekClick('btnF')" class="day" id="btnF" title="토">토</button>
+							<button type="button" onclick="weekClick('btnG')" class="day" id="btnG" title="일">일</button>
+						</div>
+						<div class="input_time_term">						
+							<label for="timeStartHour" id="">재생시간</label>
+							<input type="text" name="" id="timeStartHour" 	oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="small" placeholder="시" maxlength="2">&nbsp;:&nbsp;<input type="text" name="" id="timeStartMinute" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="small" placeholder="분" maxlength="2"> ~
+							<input type="text" name="" id="timeEndHour" 	oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="small" placeholder="시" maxlength="2">&nbsp;:&nbsp;<input type="text" name="" id="timeEndMinute"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="small" placeholder="분" maxlength="2">
+							<label for="timeStartHour" id="">예) 05:00 ~ 16:30 </label>
+							<input type="hidden" name="" id="controlID" >
+						</div>
+						<button type="button" class="btn_point" id="organAdd" title="스케줄 추가">추가</button>
+					</div>				
+				</div>
+				<!-- Schedule device, organic list -->
+				<form  id="formSchedule" name="formSchedule">
+					<div id="schedule_list">
+					</div>
+				</form>
+
+				<form  id="formOrganic" name="formOrganic">
+					<!-- <div class = "content_cnt" style='border: 1px dashed #dbdee4; border-radius: 10px; min-height: 50px;' id="ogran_list"> -->
+					<div class = "content_cnt zero"  id="ogran_list">
+						<button type="button" class="btn_add_circle2" id='btn_add_circle' disabled=true;>추가하기</button>
+						<div id='before_default' style='height : 10px;'></div>
+					</div>
+				</form>
+			</section>	
+        </section>
+        <!-- //content 끝 -->
+		<!-- aside 시작 -->
+		<div id="aside_wrap">
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>화면 디자인</h3>
+				</div>
+				<div class="aside_tit">
+					<!-- <div class="search_stick">	 -->
+						<!-- <fieldset> -->
+						<h3>
+							<input type="text" name="searchText" id="searchText" style="width: 80%;"  placeholder="스케줄 이름" onkeypress="if(event.keyCode == 13) $('#btnSearch').click();">
+							<button type="submit" class="btn_search" id="btnSearch" title="검색">검색</button>
+						</h3>
+						<!-- </fieldset> -->
+					<!-- </div> -->
+				</div>
+				<div class="design_list_wrap scrollbar-dynamic" style="padding-right: 0px;">
+					<ul class='design_list' id='controlList'>
+
+					</ul>
+				</div>
+				<!-- 페이징 시작 -->
+				<div class="design_paging_wrap">
+					<div id="design_paging" style="margin-left:30%;">
+						<button type="button" class="paging_prev" id="paging_pre" title="이전"><</button>
+							<span class="paging_now" id="paging_now">1</span>
+							<span class="paging_total" id="paging_total">/ 5</span>
+						<button type="button" class="paging_next" id="paging_next" title="다음">></button>
+						<span class="list_total" id="designCountText"></span>
+					</div>
+				</div>
+
+
+			</section>
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+	
+
+<!-- 볼륨,공지사항 모달.ver -->
+<div class="modal fade in" data-backdrop="static" id="popClickScheduleSend">
+    <div class="modal-dialog" style="width: 30%;">
+    	<!-- <div class="modal-dialog  modal-sm"  margin: 0%; left: 38%; top: 25%;> -->
+		<!-- <div class="modal-dialog"> -->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title="닫기"
+					onclick="closePopup()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="device_title">스케줄 전송</h4>
+            </div>
+			<div class="modal-body" style="height:450px;">
+			    <div class="col-md-6" style="padding : 0px; width: 60%;">
+					<h4 >셋탑박스 선택
+					   <span > : <strong id = "selected_settop">0 </strong>대</span>
+  				    </h4>
+				    <div class="tbl_wrap" style="overflow: auto; margin-top: 15px; max-height: 400px;">			
+					   <!-- 목록 시작 -->
+					   <table class="tbl_list" id="device_table">
+						   <colgroup>
+							   <col style="width:auto;">
+							   <col style="width:auto;">
+							   <col style="width:auto;">
+							   <col style="width:auto">
+							   <col style="width:auto">
+						   </colgroup>
+						   <thead>
+							   <tr>
+								   <th scope="col"><input type="checkbox" id="chkAll"></th>
+								   <th scope="col">번호</th>
+								   <th scope="col">이름</th>
+								   <th scope="col">아이디</th>
+								   <th scope="col">상세설명</th>
+							   </tr>					
+						   </thead>
+						   <tbody id="device_list">            
+							   
+						   </tbody>
+					   </table>
+				    </div>
+			    </div>
+			    <div class="col-md-6 col2" style="padding-right : 0px; width: 40%;">
+				 	<div>
+						<h4 >셋탑박스 그룹</h4>	
+					</div>
+				  	<div style="margin-top : 20px;">
+					    <div class="tree_wrap" style="overflow: auto; max-height: 400px;">
+						    <ul id="treeDemo" class="ztree"></ul>
+					    </div>	
+				    </div>
+			   </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn_point pull-left" onclick="selDevices();" id="btnSave" title="저장">저장</button>
+			
+			</div>
+		</div>
+    </div>
+</div>
+<!-- 볼륨,공지사항 모달.ver 끝 -->
+
+<!-- page script -->
+<script src="/static/js/did/schedule.js"></script>
+
+
+</body>
+</html>

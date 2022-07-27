@@ -1,0 +1,89 @@
+<!-- organic.html -->
+{% include "did/header.html" %}
+
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작 -->
+        <section id="content">
+			<div class="page_tit setting">
+				<h2>스케줄전송</h2>
+				<div class="tab_wrap_rectangle">
+					<a href="/schedule" id="btn_schdule" title='편성으로 이동'>편성</a>
+					<a href="/organic" class="active">스케줄</a>
+				</div>
+			</div>
+			<div class="page_header_color schedule2">
+				<a href="/organic" class="btn_default" id="btn_date_schdule">날짜편성</a>
+				<div class="calendar_date_wrap">
+					<div class="btn_wrap stick">
+						<button type="button" class="btn_calendar_prev active" id="btnCalendarPrev" title='이전달로 이동'>이전달</button>
+						<button type="button" class="btn_calendar_next" id="btnCalendarNext" title='다음달로 이동'>다음달</button>
+					</div>
+					<strong>2021.03</strong>
+					<button type="button" class="btn_point" id="btnCalendarToday" title='오늘날짜로 이동'>오늘</button>
+				</div>			
+				<div class="btn_wrap stick">
+					<button type="button" class="btn_view_frame active" id="" onclick="location.href='/organic';" title='스케줄로 이동'>바둑판으로 보기</button>
+					<button type="button" class="btn_view_list" id="" onclick="location.href='/deploy';" title='스케줄 전송 내역'>목록으로 보기</button>
+				</div>				
+			</div>			
+			<div class="calendar_wrap">
+				<ul class="calendar_head">
+					<li>Sun</li>
+					<li>Mon</li>
+					<li>Tue</li>
+					<li>Wed</li>
+					<li>Thu</li>
+					<li>Fri</li>
+					<li>Sat</li>
+				</ul>
+				<ul class="calendar_body" id="calendarUl">            
+				</ul>
+			</div>			
+        </section>
+        <!-- //content 끝 -->
+		<!-- aside 시작 -->
+		<div id="aside_wrap" class="bg">
+			<section class="aside_conts bg">
+				<div class="aside_tit">
+					<h3 class="calendar_date_small">2021<strong>03</strong></h3>
+				</div>
+				<div class="aside_calendar_wrap">				
+					<div class="calendar_wrap small">
+						<ul class="calendar_head">
+							<li>Sun</li>
+							<li>Mon</li>
+							<li>Tue</li>
+							<li>Wed</li>
+							<li>Thu</li>
+							<li>Fri</li>
+							<li>Sat</li>
+						</ul>
+						<ul class="calendar_body" id="calendarUl2">            
+						</ul>
+					</div>				
+				</div>
+			</section>
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3 class="day_schedule_date"></h3>
+				</div>
+				<div class="schedule_list_scroll scrollbar-dynamic">
+					<dl class="day_schedule_list">
+	
+					</dl>
+				</div>
+			</section>			
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+	
+<!-- page script -->
+<script src="/static/js/did/organic.js"></script>
+<!-- page script 끝 -->	
+</body>
+</html>
+

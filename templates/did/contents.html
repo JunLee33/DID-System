@@ -1,0 +1,572 @@
+<!-- contents.html -->
+{% include "did/header.html" %}
+	<!-- colorpicker include -->
+	<script src="/static/dist/js/jscolor.min.js"></script>
+	<style>
+		.modal-dialog-centered {
+			transform: translate(0, -50%);
+			top: 30%;
+			margin: 0 auto;
+		}
+		.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+		.bar { background-color: #337ab7; width:0%; height:20px; border-radius: 3px; }
+		.percent { position:absolute; display:inline-block; top:1px; left:48%; }
+		
+	</style>
+    
+    <!-- container 시작 -->
+    <div id="container">
+        <!-- content 시작-->
+        <section id="content" style="padding-bottom: 0px;">
+			<div class="page_tit">
+				<h2>콘텐츠</h2>
+			</div>
+			<div class="page_header contents">
+				<div class="btn_wrap">
+					<!-- <button type="button" class="btn_point_add" id="contentsAdd" onclick="openLayerPopup('contentsAddPopup')">콘텐츠 추가</button> -->
+					<button type="button" class="btn_point_add" id="btn_cont_add" style="display:none;" title="새로운 컨텐츠 추가">콘텐츠 추가</button>
+					<select name="sel_cont_add" id="sel_cont_add">
+						<option value="all">등록콘텐츠 선택</option>
+						<option value="M">동영상</option>
+						<option value="I">이미지</option>
+						<option value="T">자막</option>
+						<option value="W">WEB</option>
+						<option value="L">라이브</option>
+					</select>
+				</div>
+				<div class="tag_wrap">
+					<p>
+						<!-- <span id="addHashtag" style="background-color:#3c8dbc; color:#eff6f9">태그 추가</span> -->
+						<span class="tag">&#35;자동차</span>
+						<span class="tag">&#35;음식</span>
+						<span class="tag">&#35;전광판</span>
+						<span class="tag">&#35;옥외광고</span>
+					</p>					
+					<button type="button" class="btn_conts_circle2" id="" title="태그 더보기">태그 더보기</button>
+				</div>
+
+				<!-- 요청대로 수정된 부분 . ...-->
+				<div class="right_sided">
+					<div class="btn_wrap stick">
+						<button type="button" class="btn_view_frame active" 	id="btn_view_frame" title="바둑판으로 보기">바둑판으로 보기</button>
+						<button type="button" class="btn_view_list" 	id="btn_view_list" onclick="" title="목록으로 보기">목록으로 보기</button>
+					</div>
+					<div class="search_stick">
+						<fieldset>
+							<legend>검색하기</legend>  						
+							<select name="schType" id="schType">
+								<option value="all">선택</option>
+								<option value="cont_nm" selected>콘텐츠명</option>
+								<option value="cont_file_nm">파일명</option>
+							</select>
+							<input type="text" name="schTxt" id="schTxt" placeholder="검색어" onkeypress="if(event.keyCode == 13) $('#btnSearch').click();">
+							<button type="button" class="btn_search" id="btnSearch" title="검색">검색</button>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
+	<!-- Contents List #1. 목록형 -->
+			<section class="content" id="view_list" style="display:none;">
+				<div class="box box-solid">
+					<!--LIST 시작 -->
+					<div class="box-body">
+						<table id="data_list" class="table responsive table-bordered table-striped">
+							<input type="hidden" id="current_user_gr" value={{ current_user.user_gr }}></input>
+							<thead>
+							<tr>
+								<th style="padding-right:0px; width:10%;">NO</th>
+								<th style="padding-right:0px;width:15%;">콘텐츠 명</th>
+								<th style="padding-right:0px;width:15%;">콘텐츠 파일명</th>
+								<th style="padding-right:0px;width:15%;">콘텐츠 타입</th>
+								<th style="padding-right:0px;width:10%;">콘텐츠 용량</th>
+								<th style="padding-right:0px;width:10%;">미리보기</th>
+								<th style="padding-right:0px;width:10%;">재생시간</th>
+								<th style="padding-right:0px;width:10%;">사용기간</th>
+								<th style="padding-right:0px;width:10%;">사용유무</th>
+								<th style="padding-right:0px;width:10%;">상세보기</th>
+							</tr>
+							</thead>
+							<tbody style=" vertical-align: middle;">
+							</tbody>
+						</table>
+					</div>
+					<!--LIST 종료-->
+
+				</div>
+				<!-- /.box -->
+				<!-- /.col -->
+				<!-- /.row -->
+			</section>
+	<!-- /.content -->
+	<!-- Contents List #2. 바둑판형 -->
+			<section class="content" id="view_frame" >
+
+				<ul id = "data_frame" class="contents_list">
+				</ul>
+				<!-- <div class="paging_wrapper">
+					
+				</div> -->
+				<!-- 페이징 시작 -->
+				<div class="paging_wrap">
+					<div class="paging_list" id="paging">
+					</div>
+				</div>
+				<!-- //페이징 끝 -->		
+			</section>
+			<!-- /.바둑판형 끝 content -->
+
+        </section>
+        <!-- //content 끝 -->
+
+
+
+		<!-- aside 시작 -->
+		<div id="aside_wrap">
+			<section class="aside_conts">
+				<div class="aside_tit">
+					<h3>스토리지</h3>
+				</div>
+				<div class="storage_chart_wrap">					
+					<div class="circle_chart">
+						<strong></strong>
+					</div>
+					<p class="storage_type"><span class="used">Used</span><span class="free">Free</span></p>						
+					<p class="storage_date"><strong id='storage_used'>40.15GB</strong><span id="storage_total">160.00GB</span></p>				
+				</div>
+				<div class="aside_box">
+					<ul class="type_sorting">
+						<li class="active"><button type="button" class="btn_type all" id="class_all" onClick="searchType('');" title="전체보기">전체</button></li>
+						<li><button type="button" class="btn_type video" id="class_video"	onClick="searchType('M');" title="동영상보기">동영상</button></li>
+						<li><button type="button" class="btn_type img"   id="class_img"	 	onClick="searchType('I');" title="이미지보기">이미지</button></li>
+						<li><button type="button" class="btn_type text"  id="class_text"	onClick="searchType('T');" title="자막보기">자막</button></li>
+						<li><button type="button" class="btn_type web"   id="class_web"	 	onClick="searchType('W');" title="웹보기">Web</button></li>
+						<li><button type="button" class="btn_type live"  id="class_live"	onClick="searchType('L');" title="라이브보기">라이브</button></li>
+					</ul>
+				</div>
+			</section>
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+
+<!-- Contents 등록/상세보기 팝업 -->
+<div class="modal fade" data-backdrop="static" id="gcInsert">
+    <div class="modal-dialog  modal-lg" style="width:20%; top:10%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title="닫기"
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle"></h4>
+            </div>
+				
+				<div class="modal-body">
+					<!-- <form class="form-horizontal" id="formSetTop" name="formSetTop"> -->
+					<form class="form-horizontal" id="formContent" name="formContent" method="post" enctype="multipart/form-data">
+						<div class="box-body">
+							<div id="laySetTop">
+								<div class="form-group">  	
+									<div class="col-md-12"> 
+										<div class="box box-solid" >  
+											<!-- <div class="box-header with-border"> 
+												<label class="col-sm-2 control-label" for="contents_act" id='labelFunction'>콘텐츠 수정</label>  
+											</div> -->
+											<!-- Detail -->
+											<div class="box-body">
+												       
+												<div class="row" style="margin-top:-15px;">                                
+														<center>  
+															<img src="" id="file_preview-1" style="height:236px;">                  
+														</center>       
+												</div>
+												<div class="row" id="MI_INPUT1">                     
+														<div class="form-group" id="fileDesc" style="margin-left:15px; margin-bottom:0px;"> <label  >파일명 *</label>                      
+															<div class=" filebox bs3-primary" id="preview-image">                          
+																<input class="upload-name" id="file_nm_text-1" placeholder="파일선택" disabled="disabled" style="width:75%;">                          
+																<label  for="file_nm-1" style="margin-left:1%;" title="파일 찾기">찾기</label> 
+																<input type="file" id="file_nm-1" name="files" accept=".jpg,.jpeg.,.gif,.png,.mp4" class="upload-hidden" >                      
+															</div>                  
+														</div>                  
+														<div class="form-group has-feedback" style="margin-left:15px;"> 
+															<label>콘텐츠명 *</label>                      
+															<input class="form-control" type="text" placeholder="콘텐츠명" name="cont_nm" id="cont_nm-1" style="width:92%;">                      
+														</div> 
+												</div> 
+												<div class="row" id="MI_INPUT2" style="margin-top:-15px">
+													<div class="form-group has-feedback col-md-6" style="margin-left:0px">
+														<label id="mi_type">유형</label>                      
+														<input class="form-control" type="text" placeholder="유형" id="file_type_text-1" readonly="" style="width:100%">                      
+													</div>
+													<div class="form-group has-feedback col-md-6" style="margin-left:15px">
+														<label>용량</label>                      
+														<input class="form-control" type="text" placeholder="콘텐츠 용량" id="file_size_text-1" readonly="" style="width:100%">
+													</div>
+												</div>
+												<div class="input_term" style="width:100%;" id="MI_INPUT3">						
+													<label for="termStart" id="" style="padding-left:0px; margin-top:-15px">기간설정</label>
+													<input type="text" name="cont_start" id="cont_start" class="input_data big" placeholder="시작날짜" style="width:45%; margin-left:0px; margin-right:2.1%;" readonly="true;"> ~
+													<input type="text" name="cont_end" id="cont_end" class="input_data big" placeholder="종료날짜" style="width:45%; margin-left:2.1%;" readonly="true;">
+													<!-- <label id="" style="padding-left:0px; margin-top:0px">태그설정</label>
+													<input class="form-control" type="text" placeholder="태그입력" id="file_tag" style="width:100%"> -->
+												</div>
+														
+														<!-- hidden for form submit -->
+														<input class="form-control" name="group_seq" 	style="display:none;" value="0" 		id="file_gr_seq-1">                  
+														<!-- <input class="form-control" name="parking_seq" 	style="display:none;" value="0" 		id="file_parking_seq-1">                   -->
+														<input class="form-control" name="cont_tp" 		style="display:none;" value="" 			id="file_type-1">                  
+														<input class="form-control" name="cont_med_tm" 	style="display:none;" value="0" 		id="file_med_tm-1">                  
+														<input class="form-control" name="cont_size" 	style="display:none;" value="" 			id="file_size-1">                  
+														<input class="form-control" name="cont_apply" 	style="display:none;" value="P" 		id="file_apply-1">                  
+														<input class="form-control" name="cont_yn" 		style="display:none;" value="Y" 		id="file_yn-1">              
+														       
+													  
+													
+													<div id="URL_INPUT" style="padding-left:15px; padding-right:15px; height:100%">  
+														<div class="form-group has-feedback">
+															<label>콘텐츠 명 *</label>                      
+															<input class="form-control" type="text" placeholder="콘텐츠 이름" name="cont_nm_url" id="cont_nm_url" style="width:100%">                      
+														</div> 
+														<div class="form-group has-feedback">
+															<label style="margin-top:-15px;">URL *</label>                      
+															<input class="form-control" type="text" placeholder="콘텐츠 URL" name="cont_url" id="cont_url" >                      
+														</div>
+														<label for="termStart" id="" style="margin-left:-15px; margin-top:-15px;">기간설정</label>
+														<input type="text" name="cont_url_start" id="sub_url_start" class="input_data big" placeholder="시작날짜" style="width:46%; margin-left:-15px; margin-right:4%;" readonly="true;"> ~
+														<input type="text" name="cont_url_end" 	 id="sub_url_end" class="input_data big" placeholder="종료날짜" style="width:46%; margin-left:4%;" readonly="true;">
+													</div> 
+													<div class="row" id="MI_INPUT4" style="margin-left:15px;">	
+													<label id="" style="padding-left:0px; margin-top:0px; margin-left:-15px">태그설정</label>	
+														<div class="form-group">
+															<input type="text" id="tag" size="7" placeholder="입력 후 Enter" style="width: 90%; "/>
+														</div>
+														<ul id="tag-list" style="list-style:none; margin:0; padding:0;"></ul>
+														<div class="form-group">
+															<input type="hidden" value="" name="tag" id="rdTag" />
+														</div>
+													</div>             
+												</div>       
+											</div>    
+											<!-- Detail end -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="cont_seq" 	name="cont_seq">
+						<input type="hidden" id="user_id" 	name="user_id">
+					</form>
+					<div class="modal-footer">
+						<button type="button" class="btn btn_point pull-left" id="btnInsert" title="저장">저  장</button>
+						<button type="button" class="btn btn_point" id="btnUpdate" title="수정">수  정</button>
+						<button type="button" class="btn btn_default" id="btnDelete" title="삭제">삭  제</button>
+					</div>
+				</div>
+        </div>
+    </div>
+</div>
+
+<!-- 자막 등록/상세보기 팝업 -->
+<div class="modal fade" data-backdrop="static" id="modalSubTitle">
+    <div class="modal-dialog  modal-lg" style="width:20%; top:10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnSubTitleClose" title="닫기"
+                        onclick="closeSubTitlePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="sub_modalTitle"></h4>
+            </div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="formSetTop" name="formSetTop">
+					<form class="form-horizontal" id="formETC" name="formETC" method="post" >
+						<div class="box-body">
+							<div id="laySetTop">
+								<div class="form-group">  	
+									<div class="col-md-12"> 
+										<div class="box box-solid" >  
+											<!-- <div class="box-header with-border"> 
+												<label class="col-sm-2 control-label" for="contents_act" id='labelSubFunction'>콘텐츠 수정</label>  
+											</div> -->
+											<!-- Detail -->
+											<div class="box-body">        
+												<div class="row" id="ETC_INPUT_SUBT"> 
+														<div class="form-group has-feedback">
+															<label style="padding-left:30px">자막 명 *</label>                      
+															<input class="form-control" type="text" placeholder="콘텐츠 명" name="cont_nm" id="cont_nm-2" style="margin-left:30px; width:85.5%">   
+														</div>
+												</div>
+												<div class="row" style="margin-top:-15px;">
+													<div class="col-md-6">
+														<label>폰트 *</label>                      
+															<select class="form-control" id="font" name="font" style="width:100%">
+																<option style="font-size:11px" selected value='all'>폰트 선택</option>
+																<option style="font-size:11px" value='굴림'>굴림</option>
+																<option style="font-size:11px" value='고딕'>고딕</option>
+																<option style="font-size:11px" value='궁서'>궁서</option>
+															</select>
+													</div>
+													<div class="col-md-6">
+														<label>효과 *</label>  
+															<select class="form-control" id="cont_effect" name="cont_effect" style="width:100%;">
+																<!-- <option selected value='all'>효과 선택</option> -->
+																<option selected value='all' >효과선택</option> ";
+																<option style="font-size:11px" value='0701'>fade</option> ";
+																<option style="font-size:11px" value='0702'>rotate</option> ";
+																<option style="font-size:11px" value='0703'>disappear</option> ";
+																<option style="font-size:11px" value='0704' selected >left</option> ";
+																<option style="font-size:11px" value='0705'>right</option> ";
+															</select> 
+													</div>
+												</div>
+												<div class="row" stlye="margin-left=0px">	
+													<div class="col-md-6">
+														<label>폰트 크기 *</label>  
+															<select autofocus class="form-control" size = 4 style="width: 100%;" id="font_size" name="font_size">
+																<option selected value='all'>크기 선택</option>
+																<option value='30' id='option30'>30</option>
+																<option value='31' id='option31'>31</option>
+																<option value='32' id='option32'>32</option>
+																<option value='33' id='option33'>33</option>
+																<option value='34' id='option34'>34</option>
+																<option value='35' id='option35'>35</option>
+																<option value='36' id='option36'>36</option>
+																<option value='37' id='option37'>37</option>
+																<option value='38' id='option38'>38</option>
+																<option value='39' id='option39'>39</option>
+																<option value='40' id='option40'>40</option>
+																<option value='41' id='option41'>41</option>
+																<option value='42' id='option42'>42</option>
+																<option value='43' id='option43'>43</option>
+																<option value='44' id='option44'>44</option>
+																<option value='45' id='option45'>45</option>
+																<option value='46' id='option46'>46</option>
+																<option value='47' id='option47'>47</option>
+																<option value='48' id='option48'>48</option>
+																<option value='49' id='option49'>49</option>
+																<option value='50' id='option50'>50</option>
+																<option value='51' id='option51'>51</option>
+																<option value='52' id='option52'>52</option>
+																<option value='53' id='option53'>53</option>
+																<option value='54' id='option54'>54</option>
+																<option value='55' id='option55'>55</option>
+																<option value='56' id='option56'>56</option>
+																<option value='57' id='option57'>57</option>
+																<option value='58' id='option58'>58</option>
+																<option value='59' id='option59'>59</option>
+																<option value='60' id='option60'>60</option>
+																<option value='61' id='option61'>61</option>
+																<option value='62' id='option62'>62</option>
+																<option value='63' id='option63'>63</option>
+																<option value='64' id='option64'>64</option>
+																<option value='65' id='option65'>65</option>
+																<option value='66' id='option66'>66</option>
+																<option value='67' id='option67'>67</option>
+																<option value='68' id='option68'>68</option>
+																<option value='69' id='option69'>69</option>
+																<option value='70' id='option70'>70</option>
+																<option value='71' id='option71'>71</option>
+																<option value='72' id='option72'>72</option>
+																<option value='73' id='option73'>73</option>
+																<option value='74' id='option74'>74</option>
+																<option value='75' id='option75'>75</option>
+																<option value='76' id='option76'>76</option>
+																<option value='77' id='option77'>77</option>
+																<option value='78' id='option78'>78</option>
+																<option value='79' id='option79'>79</option>
+																<option value='80' id='option80'>80</option>
+																<option value='81' id='option81'>81</option>
+																<option value='82' id='option82'>82</option>
+																<option value='83' id='option83'>83</option>
+																<option value='84' id='option84'>84</option>
+																<option value='85' id='option85'>85</option>
+																<option value='86' id='option86'>86</option>
+																<option value='87' id='option87'>87</option>
+																<option value='88' id='option88'>88</option>
+																<option value='89' id='option89'>89</option>
+																<option value='90' id='option90'>90</option>
+																<option value='91' id='option91'>91</option>
+																<option value='92' id='option92'>92</option>
+																<option value='93' id='option93'>93</option>
+																<option value='94' id='option94'>94</option>
+																<option value='95' id='option95'>95</option>
+																<option value='96' id='option96'>96</option>
+																<option value='97' id='option97'>97</option>
+																<option value='98' id='option98'>98</option>
+																<option value='99' id='option99'>99</option>
+																<option value='100' id='option100'>100</option>
+																<option value='101' id='option101'>101</option>
+																<option value='102' id='option102'>102</option>
+																<option value='103' id='option103'>103</option>
+																<option value='104' id='option104'>104</option>
+																<option value='105' id='option105'>105</option>
+																<option value='106' id='option106'>106</option>
+																<option value='107' id='option107'>107</option>
+																<option value='108' id='option108'>108</option>
+																<option value='109' id='option109'>109</option>
+																<option value='110' id='option110'>110</option>
+																<option value='111' id='option111'>111</option>
+																<option value='112' id='option112'>112</option>
+																<option value='113' id='option113'>113</option>
+																<option value='114' id='option114'>114</option>
+																<option value='115' id='option115'>115</option>
+																<option value='116' id='option116'>116</option>
+																<option value='117' id='option117'>117</option>
+																<option value='118' id='option118'>118</option>
+																<option value='119' id='option119'>119</option>
+																<option value='120' id='option120'>120</option>
+																<option value='121' id='option121'>121</option>
+																<option value='122' id='option122'>122</option>
+																<option value='123' id='option123'>123</option>
+																<option value='124' id='option124'>124</option>
+																<option value='125' id='option125'>125</option>
+																<option value='126' id='option126'>126</option>
+																<option value='127' id='option127'>127</option>
+																<option value='128' id='option128'>128</option>
+																<option value='129' id='option129'>129</option>
+																<option value='130' id='option130'>130</option>
+																<option value='131' id='option131'>131</option>
+																<option value='132' id='option132'>132</option>
+																<option value='133' id='option133'>133</option>
+																<option value='134' id='option134'>134</option>
+																<option value='135' id='option135'>135</option>
+																<option value='136' id='option136'>136</option>
+																<option value='137' id='option137'>137</option>
+																<option value='138' id='option138'>138</option>
+																<option value='139' id='option139'>139</option>
+																<option value='140' id='option140'>140</option>
+																<option value='141' id='option141'>141</option>
+																<option value='142' id='option142'>142</option>
+																<option value='143' id='option143'>143</option>
+																<option value='144' id='option144'>144</option>
+																<option value='145' id='option145'>145</option>
+																<option value='146' id='option146'>146</option>
+																<option value='147' id='option147'>147</option>
+																<option value='148' id='option148'>148</option>
+																<option value='149' id='option149'>149</option>
+																<option value='150' id='option150'>150</option>
+
+															</select>
+													</div>
+													<div class="col-md-6">
+														                                
+														<label>폰트 색상</label>
+															<input id="font_color" readonly="" name="font_color" value="#000000FF" data-jscolor="{}" class="jscolor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-current-color="#3399FF80" 
+																style="width:100%; background-image: linear-gradient(to right, rgba(51, 153, 255, 0.5) 0%, rgba(51, 153, 255, 0.5) 30px, rgba(0, 0, 0, 0) 31px, rgba(0, 0, 0, 0) 100%), 
+																url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAEAAAAAANp9p1AAAAT0lEQVRIDWOcOXPmfwY84OzZs3hkGRiMjY3xyuPS397ezjB58uSHTHh100Fy1AGjITAaAiy48iksB5KbzwnpZ2VlBSsZjYLREBgNgQEPAQBaihKR59fo/AAAAABJRU5ErkJggg==&quot;) 
+																!important; background-size: auto, 32px 16px !important; background-origin: padding-box, padding-box !important; padding-left: 40px !important; background-position: left top, 
+																left top !important; background-repeat: repeat-y, repeat-y !important;">
+														<label>배경 색상</label>
+															<input id="font_bg_color" readonly="" name="font_bg_color" value="#FFFFFFFF" data-jscolor="{}" class="jscolor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-current-color="#3399FF80" 
+																style="width:100%; background-image: linear-gradient(to right, rgba(51, 153, 255, 0.5) 0%, rgba(51, 153, 255, 0.5) 30px, rgba(0, 0, 0, 0) 31px, rgba(0, 0, 0, 0) 100%), 
+																url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAEAAAAAANp9p1AAAAT0lEQVRIDWOcOXPmfwY84OzZs3hkGRiMjY3xyuPS397ezjB58uSHTHh100Fy1AGjITAaAiy48iksB5KbzwnpZ2VlBSsZjYLREBgNgQEPAQBaihKR59fo/AAAAABJRU5ErkJggg==&quot;) 
+																!important; background-size: auto, 32px 16px !important; background-origin: padding-box, padding-box !important; padding-left: 40px !important; background-position: left top, 
+																left top !important; background-repeat: repeat-y, repeat-y !important;">
+													</div>
+												</div>
+												<div class="row" stlye="margin-left=0px">
+													<label style="padding-left:15px;">자막 1 *</label>
+														<div id="subTileDiv-1">
+															<input class="form-control" type="text" placeholder="자막 입력" name="subTitle_1" id="subTitle_1" style="width:92%; margin-left:15px;">
+															<button type="button" id="btn_add1" class="btn_add_circle" onclick="showDIV('subTileDiv-2');" style="margin-left:15px;" title="자막 추가">추가하기</button>
+														</div>
+														
+														<div id="subTileDiv-2" >
+															<label style="padding-left:15px;">자막 2</label>                      
+															<input class="form-control" type="text" placeholder="자막 입력" name="subTitle_2" id="subTitle_2" style="width:92%; margin-left:15px;">
+															<button type="button" id="btn_add2" class="btn_add_circle" onclick="showDIV('subTileDiv-3');" style="margin-left:15px;" title="자막 추가">추가하기</button>
+															<button type="button" id="btn_remove2" class="btn_remove_circle" onclick="hideDIV('subTileDiv-2');" style="margin-left:15px;" title="자막 제거">제거하기</button>
+														</div>   
+														<div id="subTileDiv-3">
+															<label style="padding-left:15px;">자막 3</label>                      
+															<input class="form-control" type="text" placeholder="자막 입력" name="subTitle_3" id="subTitle_3" style="width:92%; margin-left:15px;">
+															<button type="button" id="btn_add3" class="btn_add_circle" onclick="showDIV('subTileDiv-4');" style="margin-left:15px;" title="자막 추가">추가하기</button>
+															<button type="button" id="btn_remove3" class="btn_remove_circle" onclick="hideDIV('subTileDiv-3');" style="margin-left:15px;" title="자막 제거">제거하기</button>
+														</div>
+														<div id="subTileDiv-4">
+															<label style="padding-left:15px;">자막 4</label>                      
+															<input class="form-control" type="text" placeholder="자막 입력" name="subTitle_4" id="subTitle_4" style="width:92%; margin-left:15px;">
+															<button type="button" id="btn_add4" class="btn_add_circle" onclick="showDIV('subTileDiv-5');" style="margin-left:15px;" title="자막 추가">추가하기</button>
+															<button type="button" id="btn_remove4" class="btn_remove_circle" onclick="hideDIV('subTileDiv-4');" style="margin-left:15px;" title="자막 제거">제거하기</button>
+														</div>
+														<div id="subTileDiv-5">
+															<label style="padding-left:15px;">자막 5</label>                      
+															<input class="form-control" type="text" placeholder="자막 입력" name="subTitle_5" id="subTitle_5" style="width:92%; margin-left:15px;">
+															<button type="button" id="btn_remove5" class="btn_remove_circle" onclick="hideDIV('subTileDiv-5');" style="margin-left:15px;" title="자막 제거">제거하기</button>
+														</div>
+												</div>   
+												<div class="row" stlye="margin-left=0px">
+													<div class="input_term" style="width:100%;">						
+															<label for="termStart" id="" style="padding-left:15px;">기간설정</label>
+															<!-- <input type="text" name="cont_start" id="sub_start" class="input_data big" placeholder="시작날짜" style="margin-left:15px;"> ~
+															<input type="text" name="cont_end" 	 id="sub_end" class="input_data big" placeholder="종료날짜" style="margin-left:15px;"> -->
+															<input type="text" name="cont_start" id="sub_start" class="input_data big" placeholder="시작날짜" style="width:40%; margin-left:15px; margin-right:4%;" readonly="true;"> ~
+															<input type="text" name="cont_end" 	 id="sub_end" class="input_data big" placeholder="종료날짜" style="width:40%; margin-left:4%;" readonly="true;">
+
+															<label id="" style="padding-left:15px; margin-top:0px;">태그설정</label>	
+															<div class="form-group">
+																<input type="text" id="sub_tag" size="7" placeholder="입력 후 Enter" style="width: 85%; margin-left:30px;"/>
+															</div>
+															<ul id="sub_tag-list" style="list-style:none; margin:0; padding:0; margin-left:15px;"></ul>
+															<div class="form-group">
+																<input type="hidden" value="" name="tag" id="sub_rdTag" />
+															</div>
+													</div>
+												</div>
+												<div class="row" stlye="margin-left=0px">
+														<input class="form-control" name="cont_tp" 	style="display:none;" value="T" id="cont_tp_2">
+														<input class="form-control" name="cont_seq" style="display:none;" id="cont_seq_2">
+												</div>
+											</div>    
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="cont_seq_text" 	name="cont_seq_text">
+					</form>
+					<div class="modal-footer">
+						<button type="button" class="btn btn_point pull-left" id="btnInsertText" title="저장">저  장</button>
+						<button type="button" class="btn btn_point" id="btnUpdateText" title="수정">수  정</button>
+						<button type="button" class="btn btn_default" id="btnDeleteText" title="삭제">삭  제</button>
+					</div>
+				</div>
+        </div>
+    </div> 
+</div>
+
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Upload processing...</h3>
+			</div>
+			<div class="modal-body">
+				<!-- progress , bar, percent를 표시할 div 생성한다. -->
+				<div class="progress">
+					<div class="progress-bar"></div>
+					<div class="percent" style="color:black; font-weight: bold;">0%</div>
+				</div>
+				<div id="status"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="inputHashtag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered" style="width:195px;">
+		<div class="modal-content">
+			<div class="modal-body" style="width:195px; padding:0px">
+				<input type="text" id="hashName" style="width:195px;" placeholder="입력 후 Enter">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- page script -->
+<script src="/static/js/did/contents.js"></script>
+
+</body>
+</html>
+

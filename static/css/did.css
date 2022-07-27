@@ -1,0 +1,423 @@
+.modal-dialog.modal-fullsize {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content.modal-fullsize {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+
+.modal-dialog.modal-80size {
+  width: 80%;
+  height: 80%;
+  margin: 0;
+  padding: 0;
+}
+
+
+.modal-dialog.modal-parkingsize {
+  width: 60%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dialog.modal-layerSize {
+  width: 50%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dialog.modal-groupSize {
+  width: 65%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dialog.modal-50size {
+  width: 50%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+
+.modal-dialog.modal-40size {
+  width: 40%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dialog.modal-30size {
+  width: 30%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-dialog.modal-20size {
+  width: 20%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content.modal-80size {
+  height: auto;
+  min-height: 80%;
+}
+
+.modal.modal-center {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .modal.modal-center:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog.modal-center {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
+.imageBox {
+  max-width: 100px;
+  max-height: 100px;
+  padding: 5px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+@supports (object-fit: cover) {
+  .imageBox  {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+
+
+
+/* filebox : file input 시 style 및 데이터 샘플 */
+/* div class = filebox */
+/* label = filebox .label */
+/*
+innerHtml += "<div class='filebox bs3-primary preview-image' id='preview-image'><input class='upload-name' value='파일선택' disabled='disabled' style='width: 70%;'>";
+innerHtml += "<label for='file'>업로드</label> <input type='file' id='file' id='file_nm-"+(settopCnt)+"'  name='files  accept='.jpg,.jpeg.,.gif,.png,.mov,.mp4' class='upload-hidden'>";
+innerHtml += "</div>";
+*/
+
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+.filebox label {
+    display: inline;
+    padding: .5em .75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    margin: -1px;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+}
+
+/* named upload */
+.filebox .upload-name {
+
+
+    min-width: 78%;
+    display: inline;
+    padding: .5em .75em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+  -webkit-appearance: none; /* 네이티브 외형 감추기 */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* imaged preview */
+.filebox .upload-display {
+    margin-bottom: 5px;
+}
+
+@media(min-width: 768px) {
+    .filebox .upload-display {
+        display: inline;
+        margin-right: 0px;
+        margin-bottom: 0;
+    }
+}
+
+.filebox .upload-thumb-wrap {
+    display: inline;
+    width: 18%;
+    padding: 2px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.filebox .upload-display img {
+    display: block;
+    max-width: 100%;
+    width: 100% \9;
+    height: auto;
+}
+
+.filebox.bs3-primary label {
+  color: #2e6da4;
+  background-color: white;
+    border-color: #2e6da4;
+}
+
+#contentList, #small_wrap {
+  width: 100%;
+}
+#contentList > div {
+  width: 23%;
+  height: 23%;
+  margin: 1%;
+  background: 50% 50% no-repeat;
+  float: left;
+
+}
+
+#contentList > div > img {
+overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 11vw;
+            height: 11vw;}
+
+#temp_url {
+    width: auto;
+    height: 500px;
+}
+
+#temp_url img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 싱글라인 라벨 CSS*/
+.element {
+        width:100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
+}
+
+.checkClass{
+
+    display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #bcbcbc;
+	background-color: #666666;
+}
+
+/* 테이블 호버 이벤트
+table tbody tr:hover { background-color: #EEEEEE; }
+*/
+
+#preview{
+	position:absolute;
+	border:1px solid #ccc;
+	background:#333;
+	display:none;
+	color:#fff;
+	}
+
+
+/* loading Mask source Code */
+
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 3;
+}
+
+
+.loading-mask {
+  position: relative;
+}
+
+/*
+Because we set .loading-mask relative, we can span our ::before
+element over the whole parent element
+*/
+.loading-mask::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 3;
+
+}
+
+/*
+Spin animation for .loading-mask::after
+*/
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/*
+The loading throbber is a single spinning element with three
+visible borders and a border-radius of 50%.
+Instead of a border we could also use a font-icon or any
+image using the content attribute.
+*/
+.loading-mask::after {
+  content: "";
+  position: absolute;
+  border-width: 3px;
+  border-style: solid;
+  border-color: transparent rgb(255, 255, 255) rgb(255, 255, 255);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  top: calc(50%);
+  left: calc(50%);
+  animation: 2s linear 0s normal none infinite running spin;
+  filter: drop-shadow(0 0 2 rgba(0, 0, 0, 0.33));
+
+}
+
+.table-middle{
+    text-align: center;
+    vertical-align: bottom;
+}
+
+/*
+    table Tbody Scroll CSS 추가
+
+*/
+
+.table-container{
+  padding: 1rem;
+  margin: 1rem;
+}
+.table-scroll{
+  /*width:100%; */
+  display: block;
+  empty-cells: show;
+
+  /* Decoration */
+  border-spacing: 0;
+  border: 1px solid;
+}
+
+.table-scroll thead{
+  background-color: #f1f1f1;
+  position:relative;
+  display: block;
+  width:100%;
+  overflow-y: scroll;
+}
+
+.table-scroll tbody{
+  /* Position */
+  display: block; position:relative;
+  width:100%; overflow-y:scroll;
+  /* Decoration */
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.table-scroll tr{
+  width: 100%;
+  display:flex;
+}
+
+.table-scroll td,.table-scroll th{
+  flex-basis:100%;
+  flex-grow:2;
+  display: block;
+  padding: 1rem;
+  text-align:left;
+}
+
+/* Other options */
+
+.table-scroll.small-first-col td:first-child,
+.table-scroll.small-first-col th:first-child{
+  flex-basis:20%;
+  flex-grow:1;
+}
+
+.table-scroll tbody tr:nth-child(2n){
+  background-color: rgba(130,130,170,0.1);
+}
+
+.body-half-screen{
+  max-height: 40vh;
+}
+
+.small-col{flex-basis:10%;}
+
+
+/* td th overflow 막기*/
+table-single {
+    table-layout:fixed;
+
+}
+table-single .td, th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-align:center;
+  text-overflow:ellipsis;
+}
+
+

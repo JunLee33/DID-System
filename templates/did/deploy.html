@@ -1,0 +1,77 @@
+<!-- deploy.html -->
+{% include "did/header.html" %}
+    
+    <!-- container 시작 -->
+    <div id="container" style="overflow-x: hidden;">
+        <!-- content 시작 -->
+        <section id="content" class="aside_none">
+			<div class="page_tit setting">
+				<h2>스케줄전송</h2>
+				<div class="tab_wrap_rectangle">
+					<a href="/schedule" title="편성으로 이동">편성</a>
+					<a href="/organic" class="active" title='스케줄로 이동'>스케줄</a>
+				</div>
+			</div>
+			<!-- 목록 시작 -->
+			<table id="data_list" class="table table-bordered">
+				<thead>
+				  <tr>
+					<th style="padding-right:0px;">번호</th>
+					<th style="padding-right:0px;">이름</th>
+					<th style="padding-right:0px;">기간</th>
+					<th style="padding-right:0px;">편성정보</th>
+					<th style="padding-right:0px;">셋탑박스</th>
+					<th style="padding-right:0px;">전송아이디</th>
+					<th style="padding-right:0px;">전송날짜</th>
+					<th style="padding-right:0px;">삭제</th>
+					<!-- <th style="padding-right:0px;">정보보기</th> -->
+				  </tr>
+				</thead>
+			  </table>
+			</div>		
+			<!-- //목록 끝 -->
+        </section>
+        <!-- //content 끝 -->
+    </div>
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+<!-- 팝업 시작-->
+<div class="modal fade modal-center in" data-backdrop="static" id="modaldevcnt">
+    <div class="modal-dialog modal-30size modal-center">
+        <div class="modal-content modal-30size">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title="닫기" onclick="closePopup();">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modalTitle">전송 셋탑박스</h4>
+            </div>
+            <div class="modal-body">
+
+				<div class="box-body" style="padding : 10px">
+
+					<div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+						<label for="user_nm" id="settop_cnt"></label>
+						<span id="settop_cnt_ID"></span>
+					</div>
+
+				</div>
+
+            </div>
+
+			<div class="modal-footer">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //팝업 끝-->
+	
+<!-- page script -->
+<script src="/static/js/did/deploy.js"></script>
+<!-- page script 끝 -->	
+
+</form>
+</body>
+</html>
+

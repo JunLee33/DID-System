@@ -1,0 +1,145 @@
+<!-- User.html -->
+{% include "did/header.html" %}
+    
+  <!-- container 시작 -->
+  <div id="container">
+    <!-- content 시작 -->
+    <section id="content" class="aside_none">
+			<div class="page_tit">
+				<h2>사용자</h2>
+			</div>
+			<div class="page_header user">
+				<div class="btn_wrap">
+					<button type="button" class="btn_point_add" data-toggle="modal" id="btnInsertOpen" title='사용자 추가'>사용자 추가</button>
+				</div>	
+				<div class="search_stick">	
+					<fieldset>
+						<legend>검색하기</legend>  						
+						<select name="selSearchType" id="schType">
+							<option value="user_nm">이름</option>
+							<option value="user_id">아이디</option>
+							<option value="user_gr">등급</option>
+						</select>
+						<input type="text" name="searchText" id="schTxt" placeholder="검색어" onkeypress="if(event.keyCode == 13) $('#btnSearch').click();">
+						<button type="button" class="btn_search" id="btnSearch" title='검색'>검색</button>
+					</fieldset>
+				</div>
+			</div>
+      <!--LIST 시작 data-table-->
+      <div class="box-body" style="overflow: hidden;">
+        <table id="data_list" class="table responsive table-bordered table-striped"  width="100%">
+          <thead>
+            <tr>
+              <th style="padding-right:0px;">순번</th>
+              <th style="padding-right:0px;">이름</th>
+              <th style="padding-right:0px;">아이디</th>
+              <th style="padding-right:0px;">등급</th>
+              <th style="padding-right:0px;">부서</th>
+              <th style="padding-right:0px;">등록일</th>
+              <th style="padding-right:0px;">사용유무</th>
+              <th style="padding-right:0px;">하위사용자수</th>
+              <th style="padding-right:0px;">등록자</th>
+              <th style="padding-right:0px;">저장공간</th>
+              <th style="padding-right:0px;">셋탑등록대수</th>
+              <th style="padding-right:0px;">상세보기</th>
+              <th style="padding-right:0px;">휴면해제</th>
+            </tr>
+          </thead>
+        </table>
+      </div>				
+    </section>
+    <!-- //content 끝 -->
+  </div>
+  <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+	
+
+<div class="modal fade modal-center" data-backdrop="static" id="modalInsert">
+    <div class="modal-dialog modal-20size modal-center" style="top:0%;">
+        <div class="modal-content modal-20size">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose" title='닫기'
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle">유저 등록</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="formUser" name="formUser">
+                    <div class="box-body" style="padding : 10px">
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm">사용자 이름 *</label>
+                          <input type="text" class="form-control" name = "user_nm"  id="user_nm" placeholder="사용자 이름을 입력 하세요">
+                          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm" class="col-md-6">사용자 아이디 *</label>
+                          <button type="button" class="btn_point col-md-6" style="margin-top:5px; margin-bottom: 5px; float:right;" id="duplicate_check" checking="N" title='아이디 중복체크'>중복체크</button>
+                          <input type="text" class="form-control" name = "user_id"  id="user_id" placeholder="사용자 ID를 입력하세요">
+                          <span class="glyphicon glyphicon-tag form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm">사용자 비밀번호 *</label>
+                          <input type="password" class="form-control" name = "user_pwd"  id="user_pwd" placeholder="(숫자,영문,특문)포함 8자 이상">
+                          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm">사용자 비밀번호 확인 *</label>
+                          <input type="password" class="form-control" name = "user_conf_pwd"  id="user_conf_pwd" placeholder="사용자 비밀번호를 다시 입력하세요">
+                          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm">사용자 부서 *</label>
+                          <input type="text" class="form-control" name = "user_dept_nm"  id="user_dept_nm" placeholder="사용자 부서를 입력해 주세요">
+                          <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;" id="user_gr_div">
+                          <label for="user_nm">사용자 등급 *</label>
+                          <span class="glyphicon glyphicon-bookmark form-control-feedback"></span>
+                          <select class="form-control" style="width: 100%;" id="user_gr" name="user_gr">
+                            <option value='all' selected>사용자 등급을 선택해 주세요</option>
+                            <option value='0103'>일반사용자</option>
+                            
+                          </select>
+                        </div>
+                        <div class="form-group" style=" margin-left: 0px; margin-right: 0px;" id="user_detail">
+                          <label for="user_nm" id="user_count_label">사용자 수(명) *</label>
+                          <input type="text" class="" name = "user_count"  id="user_count" value=0 placeholder="등록가능 사용자 수를 입력 하세요">
+
+                          <label for="user_nm">저장공간(메가단위 1G:1000M) *</label>
+                          <input type="text" class="" name = "user_disk"  id="user_disk" value=0 placeholder="사용자 저잗공간을 입력 하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" onkeypress='return checkNumber(event)'>
+
+                          <label for="user_nm">셋탑박스(대수) *</label>
+                          <input type="text" class="" name = "user_settop"  id="user_settop" value=0 placeholder="사용자 셋탑박스 수를 입력 하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" onkeypress='return checkNumber(event)'>
+                        </div>
+                    </div>
+                    <!-- /.box-footer -->
+                    <input type="hidden" id="user_id_set" name="user_id_set">
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_point" id="btnRegister" title='등록'>등록</button>
+                <button type="button" class="btn btn_point" id="btnUpdate" title='수정'>수정</button>
+                <button type="button" class="btn btn-default pull-left" id="btnDelete" onclick="user_yn_fuc()" title='사용유무변경'>사용유무변경</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //page script 끝 -->	
+
+<!-- page script -->
+<script src="/static/js/did/user.js"></script>
+
+</body>
+</html>
+

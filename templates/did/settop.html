@@ -1,0 +1,475 @@
+<!-- Settop.html -->
+{% include "did/header.html" %}
+
+<script type="text/javascript" src="/static/js/search.min.js" ></script>
+<style>
+	.img_refresh {animation: rotate_image 6s linear infinite;transform-origin: 50% 50%;  } 
+	@keyframes rotate_image{ 100% { transform: rotate(-360deg); } }
+	/* background-color :#d9dae2; background-color : white; */
+	.img_refresh.stop {animation-play-state: paused;  }
+	::placeholder{
+		font-family:'notokr', 'Noto Sans KR','Apple SD Gothic Neo', 'Montserrat', Arial, Helvetica, sans-serif;
+		font-size: 14px;
+	}
+</style>
+<input type="hidden" id="current_user_gr" value={{ current_user.user_gr }}></input>
+<input type="hidden" id="current_user_id" value={{ current_user.user_id }}></input>
+    
+    <!-- container 시작 -->
+    <div id="container">
+		
+        <!-- content 시작 -->
+        <section id="content">
+			<div class="page_tit settop">
+				<h2>셋탑박스</h2>
+				<button type="button" class="btn_refresh" title='정보 새로고침'>
+					<img src="/static/images/btn_refresh.png" class="img_refresh stop" id="btnRefresh">
+				</button>
+			</div>
+			<div class="linechart_wrap">
+				<div class="linechart_inner">					
+					<div id="chartContainer">
+						<canvas id="settopChart"></canvas>
+					</div>			
+				</div>
+			</div>
+			<div class="page_header settop">
+				<div class="btn_wrap">
+					<!-- <button type="button" class="btn_point_add" id="settopAdd" onclick="openLayerPopup('settopAddPopup')">셋탑박스 추가</button> -->
+					<button type="button" class="btn_point_add" data-toggle="modal" id="btnInsertPopup">셋탑박스 추가</button>
+				</div>
+				<div class="btn_wrap stick">
+					<button type="button" class="btn_default front" id="group_control" onclick="ShowMenu(700)" title='그룹제어 메뉴'>그룹제어 <span id="grp_point" style="padding-left: 5px;"> >></span></button>
+					<div id="slideBtn">
+						<button type="button" class="btn_default" onclick="selDevices('reboot');"  id="settop_restart" title='셋탑박스 재시작'>재시작</button>
+						<button type="button" class="btn_default" onclick="selDevices('screen_shot');"  id="settop_power" title='셋탑박스 화면 스크린샷'>스크린샷</button>
+						<button type="button" class="btn_default" onclick="selDevices('volume');"  id="settop_volume" title='셋탑박스 볼륨설정'>볼륨설정</button>
+						<button type="button" class="btn_default" onclick="selDevices('emergency');"  id="settop_push" title='긴급문자 전송'>긴급문자</button>
+						<button type="button" class="btn_default" onclick="selDevices('log');"  id="settop_log" title='셋탑박스 로그전송'>로그전송</button>
+					</div>
+				</div>
+				<div class="btn_wrap settop_text">
+					<ul class="chart_text">
+						<li>온라인 &nbsp;&nbsp;<strong class="online" id="settopbox_online">0</strong></li>
+						<li>오프라인 &nbsp;&nbsp;<strong class="offline" id="settopbox_offline">0</strong></li>
+						<li>장애 &nbsp;&nbsp;<strong class="error" id="settopbox_error">0</strong></li>
+					</ul>
+				</div>
+				<div class="search_stick">	
+					<fieldset>
+						<legend>검색하기</legend>  						
+						<select name="schType" id="schType" style="font-size: 14px;">
+							<option value="dev_nm">이름</option>
+							<option value="dev_id">아이디</option>
+							<!-- <option value="dev_area">장소</option> -->
+						</select>
+						<input type="text" name="schTxt" id="schTxt" placeholder="검색어" onkeypress="if(event.keyCode == 13) $('#btnSearch').click();">
+						<button type="button" class="btn_search" id="btnSearch" title='검색'>검색</button>
+					</fieldset>
+				</div>
+			</div>
+
+			<!--LIST 시작 -->
+			<div class="box-body">
+				<table id="data_list" class="table responsive table-bordered table-striped"  width="100%">
+					<thead>
+					<tr>
+						<th style="width:40px;"><input type="checkbox" class="dt_all_chk"></th>
+						<th style="width:50px;">번호</th>
+						<th style="width:auto;">이름</th>
+						<th style="width:auto;">아이디</th>
+						<th style="width:auto;">주소</th>
+						<th style="width:auto;">종류</th>
+						<th style="width:auto;">저장소</th>
+						<th style="width:auto;">CPU</th>
+						<th style="width:auto;">메모리</th>
+						<th style="width:auto;">S/W</th>
+						<th style="width:80px;">재생상태</th>
+						<th style="width:80px;">연결상태</th>
+						<th style="width:60px;">편성</th>
+						<th style="width:80px;">개별제어</th>
+						<th style="width:100px;">상세보기</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="btn_wrap" style="float: right; top: -78px;">
+				<!-- <button type="button" class="btn_point_add" id="settopAdd" onclick="openLayerPopup('settopAddPopup')">셋탑박스 추가</button> -->
+				<button type="button" class="btn_point_excel upload"  id="btnMultiInsertPopup" title="셋탑 엑셀추가">
+					엑셀 업로드
+					<!-- <img src="/static/contents/common/thumbnail/excel_upload.png" style="width: 40px; height: 50px;"> -->
+				</button>
+				<button type="button" class="btn_point_excel download" style="margin-left: 10px; margin-right: 10px;" id="btnExportPopup" title="셋탑 엑셀백업">
+					엑셀 다운로드
+					<!-- <img src="/static/contents/common/thumbnail/excel_down.png" style="width: 40px; height: 50px;"> -->
+				</button>
+			</div>
+			<!--LIST 종료-->	
+        </section>
+        <!-- //content 끝 -->
+		<!-- aside 시작 -->
+		<div id="aside_wrap">
+			<section class="aside_conts settop">
+				<div class="aside_tit">
+					<h3>셋탑박스 그룹</h3>
+					<button type="button" class="btn_point" id="group_add_btn" title='그룹추가'>그룹추가</button>
+				</div>
+				<div class="tree_wrap scrollbar-dynamic">
+					<ul id="treeDemo" class="ztree"></ul>
+				</div>
+			</section>			
+		</div>
+		<!-- //aside 끝 -->
+    </div>
+
+	
+	
+    <!-- //container 끝 -->    
+</div>
+<!-- //wrap 끝 -->
+
+
+	
+	
+	
+
+
+<!-- SETTOP 신규 등록 & 수정 팝업 -->
+<!-- 가맹점 내 셋탑박스 등록 -->
+
+<div class="modal fade in modal-center" data-backdrop="static" id="modalInsert" style="overflow: auto;">
+    <div class="modal-dialog modal-center" style="width:20%; margin: 0%; top:0%">
+    <!-- <div class="modal-dialog  modal-sm"> -->
+	<!-- <div class="modal-dialog"> -->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCloseRegister" title='닫기'
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle"></h4>
+            </div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="formSetTop" name="formSetTop">
+						<div class="box-body" id="laySetTop">
+							<div style="margin-right:15px; margin-left: 15px;">                  
+								<div class="form-group" style="margin-bottom: 3px;">                      
+									<label >셋탑명 *</label>                      
+									<input class="form-control" type="text" placeholder="셋탑박스명" id="dev_nm" name="dev_nm">                  
+								</div>              
+							</div>
+							<div style="margin-right:15px; margin-left: 15px;">                  
+								<div class="form-group" style="margin-bottom: 3px;">                      
+									<label class="col-md-6">아이디 *</label> <button type="button" class="btn_point col-md-6" style="margin-top:5px; margin-bottom: 5px; float:right;" id="duplicate_check" checking="N" title='아이디 중복체크'>중복체크</button>                     
+									<input class="form-control" type="text" placeholder="아이디" id="dev_id" name="dev_id">                  
+								</div>              
+							</div>
+							<div class="col-md-12">                  
+								<div class="form-group" style="margin-bottom: 3px;">                      
+									<label>코멘트</label>                      
+									<input class="form-control" type="text" placeholder="코멘트" id="dev_cmt" name="dev_cmt">                  
+								</div>              
+							</div>
+							<div class="col-md-12" >   
+								<!-- <div class="col-md-6" >                   -->
+									<div class="form-group" style="margin-bottom: 3px;">
+										<label>주소 *</label> 
+										<div id="postcodify">
+										</div>
+										<div id='search_result'></div>
+									</div>           
+								<!-- </div> -->
+							</div>
+							<div class="col-md-12" >   
+								<!-- <div class="col-md-6 col2" > -->
+									<div class="form-group" style="margin-bottom: 3px;">
+										<label>선택된 주소</label> 
+										<input class="form-control" name="device_location" id="device_location" style="width: 100%; " disabled="true"/>
+									</div>
+								<!-- </div> -->
+							</div>
+							<div class="col-md-12" >   
+								<!-- <div class="col-md-6 col2" > -->
+									<div class="form-group" style="margin-bottom: 3px;">
+										<label>상세 주소</label> 
+										<input class="form-control" name="device_location_detail" id="device_location_detail" style="width: 100%; " />
+									</div>
+								<!-- </div> -->
+							</div>
+							<div class="col-md-6" id="latitude" >
+								<div class="form-group" style="margin-bottom: 3px;">  
+									<label>위도</label> 
+									<input class="form-control" name="device_latitude" id="device_latitude" style="width: 100%;" disabled="true"/>
+								</div>   
+							</div>
+							<div class="col-md-6 col2" id="longitude" >
+								<div class="form-group" style="margin-bottom: 3px;">  
+									<label>경도</label> 
+									<input class="form-control" name="device_longitude" id="device_longitude" style="width: 100%;" disabled="true"/>
+								</div>
+							</div>
+								  
+							
+							<div class="col-md-6">                  
+								<div class="form-group" style="margin-bottom: 3px;">                      
+									<label>전원관리 이름</label>                      
+									<input class="form-control" type="text" placeholder="전원관리 " name="device_ncps" id="device_ncps">                  
+								</div>              
+							</div>
+							<div class="col-md-6 col2">
+								<div class="form-group" style="margin-bottom: 3px;">
+									<label>장비 타입 *</label>
+									<select class="form-control select2" id="device_type" name="device_type"><option value="all" selected="">선택하세요</option><option value="0601">1920x1080</option><option value="0602">1080x1920</option><option value="0603">CUSTOM</option></select>
+								</div>
+							</div>
+							<div class="col-md-12" style="padding: 0px;">   
+								<div class="form-group"  style="margin-bottom: 0px; padding-left: 15px;"> 
+								<label>장비 그룹선택</label>
+								</div>
+								<div class="col-md-3" style="width: 32%;">
+									<div class="form-group" style="margin-bottom: 3px;">
+										<select class="form-control select2" id="device_group_id_0" name="device_group_id_0"><option value="all" selected="">대분류</option></select>
+									</div>
+								</div> 
+								<div class="col-md-3" style="margin-left: 6px; width: 32%;">
+									<div class="form-group" style="margin-bottom: 3px;">
+										<select class="form-control select2" id="device_group_id_1" name="device_group_id_1" ><option value="all" selected="">중분류</option></select>
+									</div>
+								</div>
+								<div class="col-md-3" style="margin-left: 6px; width: 32%;">
+									<div class="form-group" style="margin-bottom: 3px;">
+										<select class="form-control select2" id="device_group_id_2" name="device_group_id_2" ><option value="all" selected="">소분류</option></select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- <input type="hidden" id="dev_id" name="dev_id"> -->
+						<input type="hidden" id="user_id" name="user_id">
+					</form>
+					<!-- <input type="hidden" id="dev_id" > -->
+
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn_point pull-left" id="btnInsert" title='저장'>저 장</button>
+					<button type="button" class="btn btn_point" id="btnUpdate" title='수정'>수 정</button>
+					<button type="button" class="btn btn_default" id="btnDelete" title="삭제">삭  제</button>
+				</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- SETTOP END  -->
+
+<!-- 그룹추가 모달.ver -->
+<div class="modal fade in" data-backdrop="static" id="groupAddPopup" style="overflow: auto;">
+    <div class="modal-dialog" style="width: 200px;  margin: 0%; left: 42%; top: 25%;">
+    	<!-- <div class="modal-dialog  modal-sm"> -->
+		<!-- <div class="modal-dialog"> -->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCloseGroup" title='닫기'
+                        onclick="closePopupGroup();"> 
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="group_modalTitle">그룹 추가하기</h4>
+            </div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="formGroup" name="formGroup">
+					<div class="box-body" id="laySetTop">
+						<div class="input_row">
+							<input type="text" id="group_name" 	name="group_name" placeholder="그룹명 *">
+							<input type="hidden" name="tID" id="group_tID" value="0">
+							<input type="hidden" name="depth" id="group_depth" value="0">
+						</div>
+					</div>
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn_point pull-left" style="margin-left: 44px;" id="ctlConfirm2" title='저장'>저 장</button>
+					<!-- <button type="button" class="btn btn_point" id="btnUpdate">수정하기</button> -->
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- 그룹추가 모달.ver 끝 -->
+
+<!-- 볼륨,공지사항 모달.ver -->
+<div class="modal fade in" data-backdrop="static" id="deviceValueInput" style="overflow: auto;">
+    <div class="modal-dialog" style="width: 250px;  margin: 0%; left: 38%; top: 25%;">
+    	<!-- <div class="modal-dialog  modal-sm"> -->
+		<!-- <div class="modal-dialog"> -->
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCloseVolume" title='닫기'
+					onclick="closeLayerPopup('deviceValueInput')">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="device_title">공지사항</h4>
+            </div>
+			<div class="modal-body">
+				<div class="box-body" id="laySetTop">
+					
+						<div class="col-md-12" id="deviceValue" style="padding: 0px;">                  
+							<div class="form-group" style="margin-bottom: 3px;">                      
+								<label>공지사항 *</label>                    
+								<textarea name="" id="deviceValue_val" style="padding-left:13px; padding-right:13px; padding-top:10px; border-color:rgb(133, 133, 133); border: 1px solid #ddd;" placeholder="입력해 주세요." cols="25" rows="5" ></textarea>
+								<p align="right" id="textLengthCheck">(0/100)</p>
+							</div>              
+						</div>
+						
+						<div id="knob" style="padding-left: 10px;">
+							<input class="knob" id="knob_spinner" data-width="200" data-min="0" data-displayPrevious=true value="20" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+						</div>
+						<div class="col-md-12" id="emergencyDuration" style="padding: 0px;">                  
+							<div class="form-group" style="margin-bottom: 3px;">                      
+								<label>시 간 *</label>                      
+								<input type="text" name="" id="emergencyDuration_val"  placeholder="초 단위, 숫자만 입력(30초 > 30)" style="width: 100%;" onkeypress='return checkNumber(event)'>           
+							</div>              
+						</div>
+						
+						<input type="hidden" name="" id="device_list_popup">
+						<input type="hidden" name="" id="fncode_popup">
+					
+				</div>
+
+				<div class="modal-footer">
+				<button type="button" class="btn btn_point pull-left" style="margin-left: 52px;" id="deviceSending" title='전송'>전송</button>
+					<!-- <button type="button" class="btn btn_point" id="btnUpdate">수정하기</button> -->
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- 볼륨,공지사항 모달.ver 끝 -->
+
+<!-- 팝업 시작-->
+<div class="modal fade modal-center in" data-backdrop="static" id="modaldevcnt" >
+    <div class="modal-dialog modal-center" style="width: 50%;">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title='닫기' aria-label="Close" id="btnCloseOrgan " onclick="closePopup();">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modalTitle">편 성<span id='modal_dev_id'></span></h4>
+            </div>
+            <div class="modal-body">
+
+				<div>
+					<table id="organ_data_list" class="table responsive table-bordered table-striped dataTable no-footer" style="width: 100%;">
+						<thead>
+						  <tr>
+							<th style="padding-right:0px; width: 10%;">번호</th>
+							<th style="padding-right:0px; width: 10%;">스케줄아이디</th>
+							<th style="padding-right:0px; width: 10%;">이름</th>
+							<th style="padding-right:0px; width: 10%;">기간</th>
+							<th style="padding-right:0px; width: 10%;">편성정보</th>
+							<th style="padding-right:0px; width: 10%;">전송아이디</th>
+							<th style="padding-right:0px; width: 10%;">전송날짜</th>
+							<!-- <th style="padding-right:0px;">정보보기</th> -->
+						  </tr>
+						</thead>
+					  </table>
+					
+				</div>
+
+            </div>
+
+			<div class="modal-footer">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //팝업 끝-->
+
+<!-- 팝업 시작-->
+<div class="modal fade modal-center in" data-backdrop="static" id="modal_screenshot">
+    <div class="modal-dialog modal-center" style="width:fit-content;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCloseShot" onclick="closePopup();" title='닫기'>
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal_screenshot_Title">스크린샷</h4>
+				<!-- <button onclick='download()'> Download </button> -->
+            </div>
+            <div class="modal-body">
+
+				<div class="box-body" style="padding : 10px">
+
+					<div id="screenshot_container" style="height: 600px;">
+						 
+					</div>
+
+				</div>
+
+            </div>
+
+			<div class="modal-footer">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //팝업 끝-->
+
+<!-- EXCEL REGISTER 팝업 시작-->
+<div class="modal fade modal-center in" data-backdrop="static" id="modalUpload" >
+    <div class="modal-dialog modal-center" style="width: 30%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnUpClose"
+                        onclick="closeUpPopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalUpTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formUpload" name="formUpload">
+                    <div class="box-body" id="modalUploadBody">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">파일 명</label>
+                            <div class='col-md-9'>
+                                <div class='filebox bs3-primary preview-image' id='preview-image'>
+                                    <input class='upload-name' id='file_nm_text' value='' disabled='disabled'
+                                           placeholder="파일을 선택해주세요"
+                                           style='width: 80%;'>
+                                    <label for='file_nm'>파일 선택</label> <input type='file' id='file_nm' name='files'
+                                                                              accept='.xlsx' class='upload-hidden'>
+                                </div>
+                                <div id='input-div'>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">파일 크기</label>
+                            <div class='col-md-10'>
+                                <input class='form-control' type='text' style='width: 90%;' placeholder='파일 크기'
+                                       id='file_size' readOnly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">파일 유형</label>
+                            <div class='col-md-10'>
+                                <input class='form-control' type='text' style='width: 90%;' placeholder='파일 유형'
+                                       id='file_type' readOnly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnUpload">등록</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- //팝업 끝-->
+	
+<!-- page script -->
+<script src="/static/js/did/settop.js"></script>
+
+</body>
+</html>
+

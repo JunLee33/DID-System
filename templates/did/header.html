@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>GSTech DID관리자</title>
+
+
+ <!-- Bootstrap 3.3.7 -->
+ <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+ <!-- Font Awesome -->
+ <link rel="stylesheet" href="/static/bower_components/font-awesome/css/font-awesome.min.css">
+ <!-- Ionicons -->
+ <link rel="stylesheet" href="/static/bower_components/Ionicons/css/ionicons.min.css">
+ <!-- DataTables -->
+ <link rel="stylesheet" href="/static/bower_components/datatables.net-bs/css/dataTables.bootstrap.css">
+
+ <!-- daterange picker -->
+ <link rel="stylesheet" href="/static/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+
+ <!-- iCheck for checkboxes and radio inputs -->
+ <link rel="stylesheet" href="/static/plugins/iCheck/all.css">
+
+ <!-- Select2 -->
+ <link rel="stylesheet" href="/static/bower_components/select2/dist/css/select2.min.css">
+
+ <!-- bootstrap datepicker -->
+ <link rel="stylesheet" href="/static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+ <!-- Bootstrap time Picker -->
+ <link rel="stylesheet" href="/static/plugins/timepicker/bootstrap-timepicker.min.css">
+
+ <!-- Theme style -->
+ <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+ <!-- AdminLTE Skins. Choose a skin from the css/skins
+	  folder instead of downloading all of them to reduce the load. -->
+ <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+
+ <!-- jQuery 3 -->
+ <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+ <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+ <script src="/static/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+ <script src="/static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+ <!-- jquery ui -->
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+ <!-- Bootstrap 3.3.7 -->
+ <script src="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+ <!-- FastClick -->
+ <script src="/static/bower_components/fastclick/lib/fastclick.js"></script>
+ <!-- AdminLTE App -->
+ <script src="/static/dist/js/adminlte.min.js"></script>
+ <!-- AdminLTE for demo purposes -->
+ <script src="/static/dist/js/demo.js"></script>
+
+ <!-- Select2 -->
+ <script src="/static/bower_components/select2/dist/js/select2.full.min.js"></script>
+ <!-- InputMask -->
+ <script src="/static/plugins/input-mask/jquery.inputmask.js"></script>
+ <script src="/static/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+ <script src="/static/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+ <!-- date-range-picker -->
+ <script src="/static/bower_components/moment/min/moment.min.js"></script>
+ <script src="/static/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+ <!-- bootstrap datepicker -->
+ <script src="/static/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+ <script src="/static/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.kr.min.js"></script>
+  <!--bootstrap datetimepicker CDN-->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+ <!-- bootstrap color picker -->
+ <script src="/static/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+ <!-- bootstrap time picker -->
+ <script src="/static/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+ <!-- SlimScroll -->
+ <script src="/static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+ <!-- iCheck 1.0.1 -->
+ <script src="/static/plugins/iCheck/icheck.min.js"></script>
+
+  <!--Video JS CDN-->
+ <!-- <link href="//vjs.zencdn.net/7.3.0/video-js.min.css" rel="stylesheet">
+ <script src="//vjs.zencdn.net/7.3.0/video.min.js"></script> -->
+
+ <!-- slick -->
+
+ <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+ <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+ 
+ <!-- datatable button -->
+
+ <!-- <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script> -->
+ <!-- <script src="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css"></script> -->
+  
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+ <!-- datatable select -->
+ <!-- <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+ <script src="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css"></script> -->
+
+ <!-- datatables checkbox -->
+ <link type="text/css" href="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+ <script type="text/javascript" src="https://gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+ <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.11.3/sorting/natural.js"></script>
+
+ <!-- file download-->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fileDownload/1.4.2/jquery.fileDownload.min.js"></script>
+
+ <!-- Google Font -->
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+ <!--did css 공통-->
+ <link rel="stylesheet" href="/static/css/did.css">
+
+ <script src="/static/js/common/common.js"></script>
+ <script src="/static/js/common/calendar.js"></script>
+
+ <!-- timeline link -->
+ 
+<link href='/static/js/fullcalendar-scheduler-5/lib/main.css' rel='stylesheet' />
+<script src='/static/js/fullcalendar-scheduler-5/lib/main.js'></script>
+
+<!-- 공통 링크 시작 -->
+<link rel="stylesheet" href="/static/css/reset.css">
+<link rel="stylesheet" href="/static/css/common.css">
+<link rel="stylesheet" href="/static/css/contents.css">
+
+<!-- Scrollbar -->
+<script type="text/javascript" src="/static/js/jquery.scrollbar.js"></script>
+<script type="text/javascript" src="/static/js/pbCommon.js"></script>
+<script type="text/javascript" src="/static/js/circle-progress.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/static/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/static/js/jquery.canvasjs.min.js"></script> 
+
+
+
+
+<!-- KONVA -->
+<script src="https://unpkg.com/konva@7.2.5/konva.min.js"></script>
+
+<!-- Chart.JS-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- KONB - SPINNER -->
+<script src="/static/js/jquery.knob.min.js"></script>
+
+
+<!-- //공통 링크 끝 -->
+<style type="text/css" >
+	.wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+		position: fixed;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		background: rgba(0,0,0,0.2); /*not in ie */
+		filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000',endColorstr='#20000000');    /* ie */
+	}
+	.wrap-loading div{ /*로딩 이미지*/
+		position: fixed;
+		top:50%;
+		left:50%;
+		margin-left: -21px;
+		margin-top: -21px;
+	}
+	.display-none{ /*감추기*/
+		display:none;
+	}
+</style>
+
+</head>
+<body>
+
+<div id="wrap">
+    <!-- header 시작 -->
+    <div id="header">
+		<div class="header_tit"><h1>GS-DID 관리자</h1></div>
+		<button type="button" class="btn_menu" fold="Y" title="메뉴 열기">메뉴 열기</button>
+		<nav class="nav_wrap">
+			<ul class="nav_menu">
+				<li class="menu01"><a href="/dashboard" id="mn_dashboard"   class="" title="대시보드">대시보드</a></li>
+				<li class="menu02"><a href="/user"      id="mn_user"        class="" title="사용자">사용자</a></li>
+                <li class="menu03"><a href="/settop"    id="mn_settop"      class="" title="셋탑박스">셋탑박스</a></li>
+                <li class="menu04"><a href="/contents"  id="mn_contents"    class="" title="콘텐츠">콘텐츠</a></li>
+				<li class="menu05"><a href="/design"    id="mn_design"      class="" title="화면디자인">화면디자인</a></li>
+                <li class="menu06"><a href="/schedule"  id="mn_schedule"    class="" title="스케줄전송">스케줄전송</a></li>
+				<li class="menu07"><a href="#none" 		id="mn_logout" 	class="" onclick="logout();" title="로그아웃">로그아웃</a>
+				<li class="menu08"><a href="/setting" 	id="mn_setting" 	class="" title="설정">설정</a>
+            </ul>
+			<!-- <a href="ST_ST_A1_001.html" class="btn_setting">setting</a> -->
+			<!-- <a href="#none" class="btn_logout" onclick="logout();">logout</a> -->
+            <!-- <a href="/setting" class="btn_setting">setting</a> -->
+		</nav>		
+	</div>
+	
+    <!-- header 끝 -->

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>GSTech DID관리자 -  Login</title>
+<!-- 공통 링크 시작 -->
+<link rel="stylesheet" href="/static/css/reset.css">
+<link rel="stylesheet" href="/static/css/common.css">
+<link rel="stylesheet" href="/static/css/contents.css">
+ <!-- Bootstrap 3.3.7 -->
+ <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.scrollbar.js"></script>
+<script type="text/javascript" src="/static/js/jquery.selectric.js"></script>
+<script type="text/javascript" src="/static/js/pbCommon.js"></script>
+<!-- //공통 링크 끝 -->
+</head>
+<body class="login">
+<form method="post" action="" id="frmLogin">
+  <!-- wrap 시작 -->
+  <div id="login_wrap">
+    <fieldset>
+      <legend>로그인</legend>   
+      <h1 class="login_text">Login</h1>
+      <div class="login_row">
+        <input type="text" name="user_id"  id="user_id" class="id" placeholder="아이디">
+      </div>
+      <div class="login_row">
+        <input type="password" name="user_pwd" id="user_pwd" class="pw" placeholder="패스워드">
+      </div>		
+      <div class="login_save">
+        <input type="checkbox" id="chk_id"><label for="chk_id" class="lb_check">아이디 저장</label>
+        <!-- <a href="#none" target="_blank" onclick="javascript:openPopup(this.href, 'popup', '800', '600');return false;">비밀번호 찾기</a> -->
+        <a href="#modalPwFind" data-toggle = "modal">비밀번호 재설정</a>
+      </div>
+      <!-- <button type="submit" class="btn_login">로그인</button>		 -->
+      <button type="button" class="btn_login" onClick="login();" title='로그인하기'>로그인</button>	
+      <p class="login_copyright">GSTECH DID Service</p>			
+    </fieldset>
+  </div> 
+  <!-- //wrap 끝 -->
+</form>
+
+<!-- 비밀번호 재설정-1 -->
+<div class="modal fade modal-center" data-backdrop="static" id="modalPwFind" style="display: none;">
+    <div class="modal-dialog modal-20size modal-center" style="width:20%">
+        <div class="modal-content modal-20size">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose1" title='닫기'
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle">비밀번호 재설정</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="formUser" name="formUser">
+                    <div class="box-body" id="resetPw" style="padding : 10px">
+
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm" style="padding : 10px 10px 0 0">사용자 이름</label>
+                          <input type="text" class="form-control" name = "user_nm"  id="user_nm" placeholder="사용자 이름을 입력 하세요">
+                          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm" style="padding : 10px 10px 0 0">사용자 아이디</label>
+                          <input type="text" class="form-control" name = "user_id"  id="user_id_verify" placeholder="사용자 ID를 입력하세요">
+                          <span class="glyphicon glyphicon-tag form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label for="user_nm" style="padding : 10px 10px 0 0">사용자 부서</label>
+                          <input type="text" class="form-control" name = "user_dept_nm"  id="user_dept_nm" placeholder="사용자 부서를 입력해 주세요">
+                          <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <!-- /.box-footer -->
+                    <input type="hidden" id="user_id_set" name="user_id_set">
+                </form>
+
+            </div>
+            <div class="modal-footer" id="button_set">
+                <button type="button" data-toggle="modal" data-target="#modalPwReset" class="btn btn_default" id="btnNextStep" style="visibility:hidden">숨김</button>
+                <button type="button" class="btn btn_point" id="btnVerify" title='정보 인증'>인증</button>
+                <!-- data-toggle="modal" data-target="#modalPwReset"-->
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- 비밀번호 재설정-2 -->
+<div class="modal fade modal-center" data-backdrop="static" id="modalPwReset" style="display: none;">
+    <div class="modal-dialog modal-20size modal-center" style="width:20%">
+        <div class="modal-content modal-20size">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose2" title='닫기'
+                        onclick="closePopup();">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalTitle">비밀번호 재설정</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="formPwReset" name="formPwReset">
+                    <div class="box-body" id="resetPw" style="padding : 10px">
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label style="padding : 10px 10px 0 0">비밀번호</label>
+                          <input type="password" class="form-control" name = "user_new_pwd"  id="user_new_pwd" placeholder="(숫자,영문,특문)포함 8자 이상">
+                          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+
+                        <div class="form-group has-feedback" style=" margin-left: 0px; margin-right: 0px;">
+                          <label style="padding : 10px 10px 0 0">비밀번호 확인</label>
+                          <input type="password" class="form-control" name = "user_conf_pwd"  id="user_conf_pwd" placeholder="비밀번호를 다시 입력하세요">
+                          <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <!-- /.box-footer -->
+                    <input type="hidden" id="user_id_set" name="user_id_set">
+                </form>
+
+            </div>
+            <div class="modal-footer" id="button_set">
+                <button type="button" class="btn btn_point" id="btnReset" title='비밀번호 재설정'>재설정</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- Bootstrap 3.3.7 -->
+<script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="/static/plugins/iCheck/icheck.min.js"></script>
+<!-- page script 시작 -->
+<script src="/static/js/common/common.js"></script>
+
+<script>
+  $(function () {
+
+     $("#user_id").focus();
+
+     $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' /* optional */
+    });
+
+    var user_id = localStorage.getItem("user_id");
+    if(user_id != null){
+      $("#user_id").val(user_id);
+      $("#remember").parent().attr('aria-checked', true);
+      $("#remember").parent().addClass('checked');
+    }else{
+      $("#remember").parent().attr('aria-checked', false);
+      $("#remember").parent().removeClass('checked');
+    }
+  });
+</script>
+<!-- page script 끝 -->	
+
+</body>
+</html>
+
